@@ -3,10 +3,17 @@ import React, {PropTypes} from 'react';
 import {
 	Framework7App, Statusbar, Panel, View, Navbar, Pages, Page, ContentBlock, ContentBlockTitle, 
 	List, ListItem, Views, NavLeft, Link, NavCenter, NavRight, GridRow, GridCol, Button, Popup,
-	LoginScreen, LoginScreenTitle, ListButton, ListLabel, FormLabel, FormInput
+	LoginScreen, LoginScreenTitle, ListButton, ListLabel, FormLabel, FormInput, Icon
 } from 'framework7-react';
 
+import NetworkList from './NetworkList'
+import WifiSwitch from './WifiSwitch'
+
 import {routes} from '../routes';
+
+let currentRoute;
+export const getCurrentRoute = () => currentRoute;
+
 
 const LeftPanel = (props, context) => (
 	<Panel left reveal layout="dark">
@@ -75,13 +82,13 @@ const MainViews = (props, context) => {
 				{/* Navbar */}
 				{context.framework7AppContext.theme.ios ? (
 					<Navbar>
-						<NavLeft>
+						{/*<NavLeft>
 							<Link icon="icon-bars" openPanel="left" />
-						</NavLeft>
-						<NavCenter sliding>Framework7</NavCenter>
-						<NavRight>
+						</NavLeft>*/}
+						<NavCenter sliding>Wifi 诗人</NavCenter>
+						{/*<NavRight>
 							<Link icon="icon-bars" openPanel="right"></Link>
-						</NavRight>
+						</NavRight>*/}
 					</Navbar>
 				) : null}
 				{/* Pages */}
@@ -97,17 +104,19 @@ const MainViews = (props, context) => {
 									<Link icon="icon-bars" openPanel="right"></Link>
 								</NavRight>
 							</Navbar>
-						) : null}						
+						) : null}
+						{ /*				
 						<ContentBlockTitle>Welcome to my App</ContentBlockTitle>
 						<ContentBlock inner>
 							<p>Duis sed erat ac eros ultrices pharetra id ut tellus. Praesent rhoncus enim ornare ipsum aliquet ultricies. Pellentesque sodales erat quis elementum sagittis.</p>
 						</ContentBlock>
-						<ContentBlockTitle>Navigation</ContentBlockTitle>
-						<List>
-							<ListItem link="/about/" title="About"></ListItem>
-							<ListItem link="/form/" title="Form"></ListItem>							
-						</List>
-						<ContentBlockTitle>Side Panels</ContentBlockTitle>
+						*/ }
+						{ /* <ContentBlockTitle>已连接 wifi-poet 路由器...</ContentBlockTitle> */ }
+						<ContentBlock inset inner><marquee>🥛你已连接Wi-Fi诗人网络。通过Wi-Fi网络名字留个言吧，别人会看见哦～🥛</marquee></ContentBlock>
+						<WifiSwitch></WifiSwitch>
+						<ContentBlockTitle>选取网络...</ContentBlockTitle>
+						<NetworkList></NetworkList>
+						{/*<ContentBlockTitle>Side Panels</ContentBlockTitle>
 						<ContentBlock>
 							<GridRow>
 								<GridCol width={50}>
@@ -128,7 +137,7 @@ const MainViews = (props, context) => {
 									<Button openLoginScreen="#login-screen">Login Screen</Button>
 								</GridCol>
 							</GridRow>
-						</ContentBlock>
+						</ContentBlock>*/}
 					</Page>
 				</Pages>
 			</View>
@@ -187,7 +196,7 @@ const AppLoginScreen = () => (
 
 export const App = () => (	
 	//Change themeType to "material" to use the Material theme
-	<Framework7App themeType="ios" routes={routes}>		
+	<Framework7App themeType="ios" onRouteChange={route => currentRoute = route} routes={routes}>		
 		<Statusbar />		
 		<LeftPanel />
 		<RightPanel />

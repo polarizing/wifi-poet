@@ -1,3 +1,66 @@
 /* =========
 Your custom styles go here
  ========= */
+
+ /* Default Status bar background */
+.statusbar-overlay {
+
+    background: #222;
+    /* We can add transition for smooth color animation */
+    -webkit-transition: 400ms;
+    transition: 400ms;
+}
+ 
+/* Change Status bar background when panel opened */
+body.with-panel-left-cover .statusbar-overlay {
+    background: #222;
+}       
+
+.wifi-name {
+	display: inline-block;
+}
+.wifi-connected-icon {
+	font-size: 19px!important;
+}
+
+.wifi-network-switch .wifi-toggle .item-title {
+	padding-left: 30px!important;
+}
+
+.wifi-network-switch .wifi-info-icon{
+	bottom: 2.5px!important;
+
+}
+.wifi-network-list .item-inner {
+	padding-right: 15px!important;
+	background-image: none!important;
+}
+
+.wifi-network {
+	width: 100%;
+}
+
+.wifi-network-info {
+	display:inline-block;
+	float:right;
+}
+.wifi-icon {
+	width: 18px;
+	height: 18px;
+	top:2px;
+	position:relative;
+	right: 10px;
+}
+.wifi-info-icon i{
+	bottom: 2.5px;
+	font-size: 22px;
+}
+
+
+input,
+textarea,
+[contenteditable] {
+	outline: 0;
+    -webkit-user-select: text!important;
+    user-select: text;
+}
