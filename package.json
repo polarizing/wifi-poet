@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "gh-pages": "^1.0.0",
     "react-scripts": "0.9.0"
   },
   "dependencies": {
@@ -10,14 +11,20 @@
     "framework7": "^1.5.3",
     "framework7-icons": "^0.8.9",
     "framework7-react": "^0.9.1",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "react": "^15.4.2",
     "react-contenteditable": "^2.0.4",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-moment": "^0.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "homepage": "http://polarizing.github.io/work/build/"
 }

@@ -52,10 +52,126 @@ export default class NetworkList extends Component {
              .update(data)
     }
 
-    onBlur(e, item) {
+    onBlur(e, item) {        
+        let networkData = 
+
+        [
+          {
+            title: '害怕别人看穿我给你的心',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '我就给今天我们所有共同好友的朋友圈',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+           {
+            title: '都点了一个赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '一分钟前我们的共同好友发了一条朋友圈',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+           {
+            title: '你第一个点赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '我马上也点了一个赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '然后截图',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '这样我的头像就在你的头像旁边了',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+           {
+            title: '尽管我们不说话',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '你不给我点赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+           {
+            title: '我也不给你点赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '但我们还是会产生一些意外的联系',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '比如',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '一分钟之内',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '有人给你点了一个赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '也给我点了一个赞',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+
+          {
+            title: '发朋友圈的过程在触摸了"发送"之后',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '还要持续一点时间',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '长短不一定',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '对我来说',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '你点了赞就结束了',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+            {
+            title: '你赞我一下',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '我赞你一下',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '你赞一下我赞过的人',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '我赞一下你赞过的人',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+          {
+            title: '似有非有的的情感虚弱得像两百块包年的wifi',
+            time: firebase.database.ServerValue.TIMESTAMP
+          },
+
+        ]
+
+        for (var i = 0; i < networkData.length; i++) {
+            let ref = firebase.database().ref('networks');
+            ref.push(networkData[i]);
+        }
+
         let data = {
           title: e.target.innerHTML,
-          timestamp: new Date()
+          time: firebase.database.ServerValue.TIMESTAMP
         }
         let ref = firebase.database().ref('networks/' + item.id + '/history');
         return ref.push(data);
@@ -85,7 +201,7 @@ export default class NetworkList extends Component {
                                         </div>
                                         <div className="wifi-network-info">
                                             <img className="wifi-icon" src="wifi.svg"></img>
-                                            <Link href={"/networks/" + item.id} className="wifi-info-icon" iconF7="info" color="blue" />
+                                            <Link href={"/networks/" + item.id} networkName={item.title} className="wifi-info-icon" iconF7="info" color="blue" />
                                         </div>
                                 </div>
                             }

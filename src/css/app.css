@@ -5,7 +5,7 @@ Your custom styles go here
  /* Default Status bar background */
 .statusbar-overlay {
 
-    background: #222;
+    background: #333;
     /* We can add transition for smooth color animation */
     -webkit-transition: 400ms;
     transition: 400ms;
@@ -13,7 +13,7 @@ Your custom styles go here
  
 /* Change Status bar background when panel opened */
 body.with-panel-left-cover .statusbar-overlay {
-    background: #222;
+    background: white;
 }       
 
 .wifi-name {

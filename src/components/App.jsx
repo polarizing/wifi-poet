@@ -85,7 +85,7 @@ const MainViews = (props, context) => {
 						{/*<NavLeft>
 							<Link icon="icon-bars" openPanel="left" />
 						</NavLeft>*/}
-						<NavCenter sliding>Wifi 诗人</NavCenter>
+						<NavCenter sliding>Wi-Fi Poet</NavCenter>
 						{/*<NavRight>
 							<Link icon="icon-bars" openPanel="right"></Link>
 						</NavRight>*/}
