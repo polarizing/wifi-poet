@@ -42,7 +42,7 @@ export default class WifiSwitch extends Component {
                <ListItem
                 className="wifi-connected-network"
                 media= '<i class="f7-icons color-blue wifi-connected-icon">check</i>'
-                title="july-9-2017 :: wifi-poet"
+                title="july-10-2017 :: wifi-poet"
                 innerSlot={
                     <span className="">
                         <img className="wifi-icon" src="wifi.svg"></img>

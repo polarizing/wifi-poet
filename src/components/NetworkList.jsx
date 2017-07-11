@@ -23,6 +23,7 @@ export default class NetworkList extends Component {
     }
 
     componentDidMount() {
+
         const itemsRef = firebase.database().ref('networks');
         itemsRef.on('value', (snapshot) => {
           let items = snapshot.val();
@@ -97,7 +98,6 @@ export default class NetworkList extends Component {
                 }
                 <ListItem 
                             media="<img src='/blank256.png'>"
-                            link="/form/" 
                             title="其他..."
                     >
                 </ListItem>
