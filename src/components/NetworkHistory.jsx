@@ -67,15 +67,15 @@ export default class NetworkHistory extends Component {
                     var dateTime = new Date(item.time);
                     var date = moment(dateTime);
                     return (
-                      <TimelineItem side={ (idx % 2 == 0) ? "right" : "left"}
+                      <TimelineItem side={ "right"}
                             key={item.id}
                             inner
-                            time={ date.format("h:mm:ss") + " : 匿名" }
+                            time={ "Poet_2848:" }
                             title=""
                             subtitle=""
                             text={item.title}
-                            day={ date.format("D") }
-                            month={ date.format("MMM").toUpperCase() }
+                            day={ date.format("h:mm:ss A") }
+                            month=""
                         >
                             
 

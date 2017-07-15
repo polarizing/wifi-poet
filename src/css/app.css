@@ -56,6 +56,44 @@ body.with-panel-left-cover .statusbar-overlay {
 	font-size: 22px;
 }
 
+.lock-icon {
+	width: 11px;
+	height: 11px;
+	position:relative;
+	right: 22px;
+	bottom:2px;
+}
+
+.pencil-icon {
+		width: 16px;
+	height: 16px;
+	position:relative;
+	right: 22px;
+}
+
+.timeline {
+	margin-top: 25px;
+}
+.timeline-item-date {
+	color: #6d6d72!important;
+	/*width: 100px;*/
+}
+
+/*.timeline-sides .timeline-item-right {
+	margin-left: calc(50% - (30px + 10px)/ 2 - 50px);
+}*/
+
+.date {
+	text-align: center;
+	font-size:17px;
+	font-weight:600;
+	margin-top: 25px;
+	color: #6d6d72!important;
+/*	background-color: #ccc;
+	padding-top: 10px;
+	padding-bottom:10px;*/
+}
+
 
 input,
 textarea,

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {ContentBlockTitle, Link, Icon, List, ListItem, FormInput, FormLabel} from 'framework7-react';
 import firebase from '../firebase.js';
+import moment from 'moment';
+import gathering from '../Gathering';
 
 const onChangeHandler = (event) => {
     console.log('change');
 };
-
-const pStyle = {margin: '1em 0'};
 
 export default class WifiSwitch extends Component {
     constructor(props, context) {
@@ -27,11 +27,14 @@ export default class WifiSwitch extends Component {
 
     render() {
         return (
-            
+            <div>
+             <ContentBlockTitle> 
+                Hello, Poet_28484!
+              </ContentBlockTitle>
             <List className="wifi-network-switch" form>
               <ListItem
                 className="wifi-toggle" 
-                title="Wi-Fi" 
+                title="Wi-Fi Poet" 
                 innerSlot={
                     <div>
                         <FormInput type="switch" onChange={this.onChange}></FormInput>
@@ -42,7 +45,7 @@ export default class WifiSwitch extends Component {
                <ListItem
                 className="wifi-connected-network"
                 media= '<i class="f7-icons color-blue wifi-connected-icon">check</i>'
-                title="july-10-2017 :: wifi-poet"
+                title= { moment().format('MMM Do YYYY') }
                 innerSlot={
                     <span className="">
                         <img className="wifi-icon" src="wifi.svg"></img>
@@ -52,6 +55,7 @@ export default class WifiSwitch extends Component {
               >
               </ListItem>
             </List>
+            </div>
         );
     }
 };

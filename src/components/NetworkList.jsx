@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Link, Icon, List, ListItem, FormInput} from 'framework7-react';
+import {Link, Icon, List, ListItem, FormInput, ContentBlockTitle, Preloader} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
+import NetworkItem from './NetworkItem'
 
 const onChangeHandler = (event) => {
     console.log('change');
@@ -14,94 +15,75 @@ export default class NetworkList extends Component {
         super(props, context);
 
         this.state = {
-            html: "<b>Hello <i>World</i></b>",
+            live: 0,
             items: []
-        }          
-        this.onChange = this.onChange.bind(this);
-        this.onBlur = this.onBlur.bind(this);
+        }
 
     }
 
-    componentDidMount() {
+    componentDidMount() {      
 
         const itemsRef = firebase.database().ref('networks');
         itemsRef.on('value', (snapshot) => {
           let items = snapshot.val();
           let newState = [];
+          let newLive = 0;
+
           for (let item in items) {
+            if (items[item].locked) {
+              newLive += 1;
+            }
             newState.push({
               id: item,
               title: items[item].title,
+              locked: items[item].locked,
             })
           }
-          console.log(newState);
+
           this.setState({
-            items: newState
+            items: newState,
+            live: newLive
           })
         })
     }
 
+    getContentBlockTitleString() {
 
-    onChange(e, item) {
-        console.log(e.target)
-      const data = {
-        title: e.target.value
+      if (this.state.live <= 0) {
+        return ( <div>Choose a network...</div> );
+      } else {
+        // return ( <div> { this.state.live.toString() } 位诗人正在写诗 ... <Preloader size="15"></Preloader> </div> )
+        return ( <div> { this.state.live.toString() } poet{ this.state.live > 1 ? "s are" : " is" } writing... <Preloader size="15"></Preloader> </div> )
       }
-      let ref = firebase.database().ref('networks')
-      return ref
-             .child(item.id)
-             .update(data)
-    }
 
-    onBlur(e, item) {        
-
-        let data = {
-          title: e.target.innerHTML,
-          time: firebase.database.ServerValue.TIMESTAMP
-        }
-        let ref = firebase.database().ref('networks/' + item.id + '/history');
-        return ref.push(data);
     }
 
     render() {
         return (
-            <List className="wifi-network-list">
-                {
-                  this.state.items.map((item) => {
-                    return (
-                      <ListItem 
-                            
-                            media="<img src='/blank256.png'>"
-                            key={item.id}
-                            innerSlot={
-                                <div className="wifi-network">
-                                        <div className="wifi-name">
-                                            <ContentEditable
-                                                onBlur={(e) => this.onBlur(e, item)}
-                                                key={item.id}
-                                                className="content no-fastclick"
-                                                html={item.title} // innerHTML of the editable div
-                                                disabled={false}       // use true to disable edition
-                                                onChange={(e) => this.onChange(e, item)} // handle innerHTML change
-                                            />
-                                        </div>
-                                        <div className="wifi-network-info">
-                                            <img className="wifi-icon" src="wifi.svg"></img>
-                                            <Link href={"/networks/" + item.id} networkName={item.title} className="wifi-info-icon" iconF7="info" color="blue" />
-                                        </div>
-                                </div>
-                            }
-                        >
-                        </ListItem>
-                    )
-                  })
-                }
-                <ListItem 
-                            media="<img src='/blank256.png'>"
-                            title="其他..."
-                    >
-                </ListItem>
-            </List>
+            <div>
+              <ContentBlockTitle> 
+                <div>{ this.getContentBlockTitleString() }</div>
+              </ContentBlockTitle>
+              <List className="wifi-network-list">
+                  {
+                    this.state.items.map((item) => {
+                      return (
+                        <ListItem 
+                              media="<img src='/blank256.png'>"
+                              key={item.id}
+                              innerSlot= { <NetworkItem networkData={ item } ></NetworkItem> }
+                          >
+                          </ListItem>
+                      )
+                    })
+                  }
+                  <ListItem 
+                              media="<img src='/blank256.png'>"
+                              title="+ Create your own ..."
+                      >
+                  </ListItem>
+              </List>
+            </div>
         );
     }
 };
