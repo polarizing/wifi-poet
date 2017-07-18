@@ -11,7 +11,7 @@ var Gathering = (function() {
         this.db = databaseReference;
         this.roomName = roomName || 'globe';
 
-        this.room = this.db.ref("gatherings/" + encodeURIComponent(this.roomName));
+        this.room = this.db.ref("gathering/" + encodeURIComponent(this.roomName));
         this.myName = '';
         this.user = null;
 
@@ -60,6 +60,4 @@ var Gathering = (function() {
     return Gathering;
 })();
 
-var gathering = new Gathering(firebase.database());
-
-export default gathering;
+export default Gathering;

@@ -3,13 +3,12 @@ import {getCurrentRoute} from '../App'
 
 import {Page, ContentBlock, ContentBlockTitle, Navbar, List, ListItem} from 'framework7-react';
 
-import NetworkHistory from '../NetworkHistory'
+import NetworkHistory from '../../containers/networkHistoryContainer'
 
-export const About = (props) => {
+export const History = (props) => {
 
     const route = getCurrentRoute();
-    console.log(props);
-
+    
     return (
         <Page>
             <Navbar title="历史" backLink="Back" sliding />

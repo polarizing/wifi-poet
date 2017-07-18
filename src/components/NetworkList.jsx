@@ -2,58 +2,26 @@ import React, {Component} from 'react';
 import {Link, Icon, List, ListItem, FormInput, ContentBlockTitle, Preloader} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
-import NetworkItem from './NetworkItem'
-
-const onChangeHandler = (event) => {
-    console.log('change');
-};
-
-const pStyle = {margin: '1em 0'};
+import NetworkItem from '../containers/networkItemContainer'
 
 export default class NetworkList extends Component {
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            live: 0,
-            items: []
-        }
-
     }
 
-    componentDidMount() {      
-
-        const itemsRef = firebase.database().ref('networks');
-        itemsRef.on('value', (snapshot) => {
-          let items = snapshot.val();
-          let newState = [];
-          let newLive = 0;
-
-          for (let item in items) {
-            if (items[item].locked) {
-              newLive += 1;
-            }
-            newState.push({
-              id: item,
-              title: items[item].title,
-              locked: items[item].locked,
-            })
-          }
-
-          this.setState({
-            items: newState,
-            live: newLive
-          })
-        })
+    componentWillMount() {
+      this.props.onGetNetworks()
+      console.log(this.props);
     }
 
     getContentBlockTitleString() {
 
-      if (this.state.live <= 0) {
-        return ( <div>Choose a network...</div> );
+      if (this.props.live <= 0) {
+        // return ( <div>Choose a network...</div> );
+        return ( <div>选取网络...</div>);
       } else {
-        // return ( <div> { this.state.live.toString() } 位诗人正在写诗 ... <Preloader size="15"></Preloader> </div> )
-        return ( <div> { this.state.live.toString() } poet{ this.state.live > 1 ? "s are" : " is" } writing... <Preloader size="15"></Preloader> </div> )
+        return ( <div> { this.props.live.toString() } 位诗人正在写诗 ... <Preloader size="15"></Preloader> </div> )
+        // return ( <div> { this.state.live.toString() } poet{ this.state.live > 1 ? "s are" : " is" } writing... <Preloader size="15"></Preloader> </div> )
       }
 
     }
@@ -66,7 +34,7 @@ export default class NetworkList extends Component {
               </ContentBlockTitle>
               <List className="wifi-network-list">
                   {
-                    this.state.items.map((item) => {
+                    this.props.networks.map((item) => {
                       return (
                         <ListItem 
                               media="<img src='/blank256.png'>"
@@ -79,7 +47,7 @@ export default class NetworkList extends Component {
                   }
                   <ListItem 
                               media="<img src='/blank256.png'>"
-                              title="+ Create your own ..."
+                              title="创建新的Wi-Fi网络..."
                       >
                   </ListItem>
               </List>

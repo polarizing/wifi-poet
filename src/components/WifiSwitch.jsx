@@ -15,7 +15,9 @@ export default class WifiSwitch extends Component {
         this.onChange = this.onChange.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        // this.props.onGetUser();
+      console.log(this.props);
 
     }
 
@@ -23,13 +25,11 @@ export default class WifiSwitch extends Component {
       console.log('Switch!');
     }
 
-
-
     render() {
         return (
             <div>
              <ContentBlockTitle> 
-                Hello, Poet_28484!
+                你好, POET_UFDSF!
               </ContentBlockTitle>
             <List className="wifi-network-switch" form>
               <ListItem
@@ -45,7 +45,7 @@ export default class WifiSwitch extends Component {
                <ListItem
                 className="wifi-connected-network"
                 media= '<i class="f7-icons color-blue wifi-connected-icon">check</i>'
-                title= { moment().format('MMM Do YYYY') }
+                title= { moment().locale('zh-cn').format('MMM Do YYYY') }
                 innerSlot={
                     <span className="">
                         <img className="wifi-icon" src="wifi.svg"></img>
