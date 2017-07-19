@@ -22,7 +22,7 @@ export const listenToAuth = () => (dispatch, getState) => {
   function createNewUser() {
     var userCountRef = firebase.database().ref('/userCount')
     var tempName;
-    alert('Creating new user in database ...');
+    // alert('Creating new user in database ...');
     userCountRef
          .transaction(function (current_value) {
            return (current_value || 0) + 1;
