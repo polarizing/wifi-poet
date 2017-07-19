@@ -48,7 +48,7 @@ export default class NetworkItem extends Component {
       })
 
       // Set line to be 'locked' on database.
-      this.setLocked( {locked: window.GATHERING.myName}, item )
+      this.setLocked( {locked: this.props.user.displayName}, item )
 
     }
 
@@ -84,7 +84,7 @@ export default class NetworkItem extends Component {
           let data = {
             name: e.target.innerText,
             timestamp: firebase.database.ServerValue.TIMESTAMP,
-            author: window.GATHERING.myName,
+            author: this.props.user.displayName
           }
           this.props.onCreateNetworkHistoryItem( item.id, data )
         }
@@ -93,7 +93,7 @@ export default class NetworkItem extends Component {
 
     lockStyle() {
       // console.log(this.props.networkData.locked);
-        if ( this.props.networkData.locked && (this.props.networkData.locked !== window.GATHERING.myName) ) {
+        if ( this.props.networkData.locked && (this.props.networkData.locked !== this.props.user.displayName) ) {
           return {
             display: 'inline-block'
           }
@@ -105,7 +105,7 @@ export default class NetworkItem extends Component {
     }
 
     pencilStyle() {
-      if (this.props.networkData.locked === window.GATHERING.myName) {
+      if (this.props.networkData.locked === this.props.user.displayName) {
         return {
             display: 'inline-block'
         }
@@ -117,7 +117,7 @@ export default class NetworkItem extends Component {
     }
 
     disabled() {
-      return this.props.networkData.locked && (this.props.networkData.locked !== window.GATHERING.myName)
+      return this.props.networkData.locked && (this.props.networkData.locked !== this.props.user.displayName)
     }
 
     editNetwork(e) {

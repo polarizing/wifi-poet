@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/actionTypes';
+import C from '../constants';
 import firebase from '../firebase';
 
 /*
@@ -21,19 +21,19 @@ export function getUser(userId) {
 
 function getUserRequestedAction() {
 	return {
-		type: ActionTypes.GET_USER_REQUESTED
+		type: C.GET_USER_REQUESTED
 	}
 }
 
 function getUserRejectedAction() {
 	return {
-		type: ActionTypes.GET_USER_REJECTED
+		type: C.GET_USER_REJECTED
 	}
 }
 
 function getUserFulfilledAction(data) {
 	return {
-		type: ActionTypes.GET_USER_FULFILLED,
+		type: C.GET_USER_FULFILLED,
 		payload: data
 	}
 }

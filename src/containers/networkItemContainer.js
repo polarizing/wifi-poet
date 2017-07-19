@@ -5,7 +5,7 @@ import { updateNetwork } from '../actions/networks';
 
 function mapStateToProps(state) {
 	return {
-
+		user: state.user.activeUser.data
 	}
 }
 

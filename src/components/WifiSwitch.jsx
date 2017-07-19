@@ -10,7 +10,7 @@ export default class WifiSwitch extends Component {
     }
 
     componentWillMount() {
-      
+      console.log(this.props);
     }
 
     onChange(e) {
@@ -21,7 +21,7 @@ export default class WifiSwitch extends Component {
         return (
             <div>
              <ContentBlockTitle> 
-                你好, POET_UFDSF!
+                你好, {this.props.user.displayName}!
               </ContentBlockTitle>
             <List className="wifi-network-switch" form>
               <ListItem

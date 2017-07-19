@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 import WifiSwitch from '../components/WifiSwitch.jsx';
-import { getUser } from '../actions/users';
 
 function mapStateToProps(state) {
+	console.log(state);
 	return {
-		user: state.activeUser,
+		user: state.user.activeUser.data,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		onGetUser: (userId) => dispatch( getUser(userId) ),
-	};
+
+	}
 }
 
 const wifiSwitchContainer = connect(mapStateToProps, mapDispatchToProps)(WifiSwitch);

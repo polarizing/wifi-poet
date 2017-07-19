@@ -1,7 +1,7 @@
-import ActionTypes from '../constants/actionTypes';
+import C from '../constants';
 
 const INITIAL_STATE = {
-	activeUser: { user: null, error: null, loading: false },
+	activeUser: { data: {displayName: null, isAnonymous: null}, error: null, loading: false },
 }
 
 export function userReducer(state = INITIAL_STATE, action) {
@@ -10,13 +10,13 @@ export function userReducer(state = INITIAL_STATE, action) {
 
 	switch(action.type) {
 
-		case ActionTypes.GET_USER_REQUESTED:
+		case C.GET_USER_REQUESTED:
 			return { ...state, activeUser: { ...state.activeUser, loading: true } }
-		case ActionTypes.GET_USER_REJECTED:
+		case C.GET_USER_REJECTED:
 			error = action.payload || "Error in getting user."
-			return { ...state, activeUser: { user: null, error: error, loading: false } }
-		case ActionTypes.GET_USER_FULFILLED:
-			  return { ...state, activeUser: { user: action.payload, error: null, loading: false } }
+			return { ...state, activeUser: { data: null, error: error, loading: false } }
+		case C.GET_USER_FULFILLED:
+			  return { ...state, activeUser: { data: action.payload, error: null, loading: false } }
 
 		default:
 			return state;
