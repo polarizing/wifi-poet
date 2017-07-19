@@ -79,7 +79,9 @@ body.with-panel-left-cover .statusbar-overlay {
 	bottom: 2.5px;
 	font-size: 22px;
 }
-
+.info-icon {
+	bottom: 2px;
+}
 .lock-icon {
 	width: 11px;
 	height: 11px;

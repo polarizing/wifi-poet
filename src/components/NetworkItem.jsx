@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, GridCol, GridRow} from 'framework7-react';
+import {Icon, Link, GridCol, GridRow} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
 
@@ -164,12 +164,14 @@ export default class NetworkItem extends Component {
               </div>
             </GridCol>
             <GridCol width="25" className="wifi-network-icons-col">
+                <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} >
                 <div className="wifi-network-info">
                     <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
                     <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
                     <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
-                    <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} className="wifi-info-icon" iconF7="info" color="blue" />
+                    <Icon className="info-icon" f7="info" size="22"></Icon>
                 </div>
+                </Link>
             </GridCol>
           </GridRow>
            
