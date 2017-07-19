@@ -144,6 +144,7 @@ export function getNetworks() {
 		dispatch( getNetworksRequestedAction() );
 		return firebase.database().ref('/networks').once('value', snap => {
 			const items = snap.val();
+			console.log(items);
 			dispatch( getNetworksFulfilledAction(items) );
 		})
 		.catch( (error) => {

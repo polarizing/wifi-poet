@@ -39,7 +39,7 @@ const MainViews = (props, context) => {
 
 						{ /* <ContentBlockTitle>已连接 wifi-poet 路由器...</ContentBlockTitle> */ }
 						{ /* <ContentBlock inset inner><marquee>🥛你已连接Wi-Fi诗人网络。通过Wi-Fi网络名字留个言吧，别人会看见哦～🥛</marquee></ContentBlock> */ }
-						<Auth />
+						{ /* <Auth /> */ }
 						<WifiSwitch />
 						<NetworkList />
 					</Page>

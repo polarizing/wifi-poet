@@ -19,6 +19,34 @@ export const listenToAuth = () => (dispatch, getState) => {
     return s;
   }
 
+  function createNewUser() {
+    var userCountRef = firebase.database().ref('/userCount')
+    var tempName;
+    alert('Creating new user in database ...');
+    userCountRef
+         .transaction(function (current_value) {
+           return (current_value || 0) + 1;
+         })
+         .then(function (userCountTxn) {
+           tempName = 'Poet_' + ( userCountTxn.snapshot.val() ).pad(5);
+           var usersRef = firebase.database().ref('users');
+           return usersRef.push({
+                 displayName: tempName,
+                 isAnonymous: true
+           })
+         })
+         .then(function (result) {
+            // console.log(result.getKey());
+            dispatch({
+              type: C.AUTH_LOGIN,
+              uid: result.getKey(),
+              isAnonymous: true,
+              // username: authData.providerData[0].displayName
+            });
+            dispatch(getUser(result.getKey()))
+         })
+  }
+
   // // Setup what to do with the user information.
   function userFirstTimeCallback(userId, exists) {
     if (exists) {
@@ -80,48 +108,51 @@ export const listenToAuth = () => (dispatch, getState) => {
       }
   }
 
-  auth.onAuthStateChanged(authData => {
+  createNewUser();
+  // userFirstTimeCallback();
+  // auth.onAuthStateChanged(authData => {
 
-    if (authData) {
-      alert('You are signed in!')
-      var isAnonymous = authData.isAnonymous;
-      var uid = authData.uid;
-      /* 
-        Check if user is anonymous and is first time signing in.
-      */
-      if (isAnonymous) {
-        checkForFirstTime(uid);
-      }
+  //   if (authData) {
+  //     alert('You are signed in!')
+  //     var isAnonymous = authData.isAnonymous;
+  //     var uid = authData.uid;
+  //     /* 
+  //       Check if user is anonymous and is first time signing in.
+  //     */
+  //     if (isAnonymous) {
+  //       checkForFirstTime(uid);
+  //     }
 
-      dispatch({
-        type: C.AUTH_LOGIN,
-        uid: uid,
-        isAnonymous: isAnonymous,
-        // username: authData.providerData[0].displayName
-      });
-    } else {
+  //     dispatch({
+  //       type: C.AUTH_LOGIN,
+  //       uid: uid,
+  //       isAnonymous: isAnonymous,
+  //       // username: authData.providerData[0].displayName
+  //     });
+  //   } else {
 
-      alert('You are not signed in!')
+  //     alert('You are not signed in!')
 
-      if (getState().auth.status !== C.AUTH_ANONYMOUS) {
-        dispatch({ type: C.AUTH_LOGOUT });
-      }
+  //     if (getState().auth.status !== C.AUTH_ANONYMOUS) {
+  //       dispatch({ type: C.AUTH_LOGOUT });
+  //     }
 
-      firebase.auth().signInAnonymously()
-          .then(function() {
-            alert('Signed in anonymously');
-          })
-          .catch(function(error) {
-            alert('Error', error);
-      //   // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-      });
+  //     firebase.auth().signInAnonymously()
+  //         .then(function() {
+  //           alert('Signed in anonymously');
+  //         })
+  //         .catch(function(error) {
+  //           console.log(error);
+  //           // alert('Error', error);
+  //     //   // Handle Errors here.
+  //       var errorCode = error.code;
+  //       var errorMessage = error.message;
+  //       // ...
+  //     });
 
-    }
+  //   }
 
-  });
+  // });
 
 };
 
