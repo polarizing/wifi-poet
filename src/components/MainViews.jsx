@@ -1,11 +1,8 @@
 import React, {PropTypes} from 'react';
 
-import {
-	Framework7App, Statusbar, Panel, View, Navbar, Pages, Page, ContentBlock, ContentBlockTitle, 
-	List, ListItem, Views, NavLeft, Link, NavCenter, NavRight, GridRow, GridCol, Button, Popup,
-	LoginScreen, LoginScreenTitle, ListButton, ListLabel, FormLabel, FormInput, Icon
-} from 'framework7-react';
+import { NavLeft, Link, NavCenter, NavRight, Views, View, Navbar, Pages, Page} from 'framework7-react';
 
+import Auth from './Auth';
 import WifiSwitch from '../containers/wifiSwitchContainer';
 import NetworkList from '../containers/networkListContainer';
 
@@ -42,8 +39,9 @@ const MainViews = (props, context) => {
 
 						{ /* <ContentBlockTitle>已连接 wifi-poet 路由器...</ContentBlockTitle> */ }
 						{ /* <ContentBlock inset inner><marquee>🥛你已连接Wi-Fi诗人网络。通过Wi-Fi网络名字留个言吧，别人会看见哦～🥛</marquee></ContentBlock> */ }
-						<WifiSwitch></WifiSwitch>
-						<NetworkList></NetworkList>
+						<Auth />
+						<WifiSwitch />
+						<NetworkList />
 					</Page>
 				</Pages>
 			</View>

@@ -10,7 +10,7 @@ export function networkReducer(state = initialState, action) {
 		case ActionTypes.NETWORKS_CHANGED: {
 			const networks = action.payload;
 	        const newNetworks = [];
-	        const newLive = 0;
+	        var newLive = 0;
 
           	for (let network in networks) {
             	if (networks[network].locked) {
@@ -49,7 +49,7 @@ export function networkReducer(state = initialState, action) {
 		case ActionTypes.GET_NETWORKS_FULFILLED: {
 			const networks = action.payload;
 	        const newNetworks = [];
-	        const newLive = 0;
+	        var newLive = 0;
 
           	for (let network in networks) {
             	if (networks[network].locked) {

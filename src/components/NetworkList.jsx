@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import {Link, Icon, List, ListItem, FormInput, ContentBlockTitle, Preloader} from 'framework7-react';
-import firebase from '../firebase.js';
-import ContentEditable from 'react-contenteditable';
+import { List, ListItem, ContentBlockTitle, Preloader} from 'framework7-react';
 import NetworkItem from '../containers/networkItemContainer'
 
 export default class NetworkList extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+    // constructor(props, context) {
+    //     super(props, context);
+    // }
 
     componentWillMount() {
       this.props.onGetNetworks()
-      console.log(this.props);
     }
 
     getContentBlockTitleString() {

@@ -1,5 +1,3 @@
-import firebase from 'firebase';
-
 var Gathering = (function() {
 
     var randomName = function () {
@@ -47,7 +45,7 @@ var Gathering = (function() {
         };
 
         this.onUpdated = function (callback) {
-            if('function' == typeof callback) {
+            if('function' === typeof callback) {
                 this.room.on("value", function(snap) {
                     callback(snap.numChildren(), snap.val());
                 });

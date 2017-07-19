@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
-import {ContentBlockTitle, Link, Icon, List, ListItem, FormInput, FormLabel} from 'framework7-react';
-import firebase from '../firebase.js';
+import {ContentBlockTitle, Icon, List, ListItem, FormInput} from 'framework7-react';
 import moment from 'moment';
-import gathering from '../Gathering';
-
-const onChangeHandler = (event) => {
-    console.log('change');
-};
 
 export default class WifiSwitch extends Component {
     constructor(props, context) {
@@ -16,9 +10,7 @@ export default class WifiSwitch extends Component {
     }
 
     componentWillMount() {
-        // this.props.onGetUser();
-      console.log(this.props);
-
+      
     }
 
     onChange(e) {
@@ -48,7 +40,7 @@ export default class WifiSwitch extends Component {
                 title= { moment().locale('zh-cn').format('MMM Do YYYY') }
                 innerSlot={
                     <span className="">
-                        <img className="wifi-icon" src="wifi.svg"></img>
+                        <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
                         <Icon className="wifi-info-icon" f7="info" size="22px" color="blue"></Icon>
                     </span>
                 }

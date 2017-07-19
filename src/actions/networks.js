@@ -1,5 +1,6 @@
 import ActionTypes from '../constants/actionTypes';
 import firebase from '../firebase';
+import C from '../constants';
 
 /*
 	REDUX CRUD -- CREATE, GET, UPDATE, DELETE
@@ -43,19 +44,19 @@ export function getNetworkHistoryItem(networkId) {
 
 function getNetworkHistoryItemRequestedAction() {
 	return {
-		type: ActionTypes.GET_NETWORK_HISTORY_ITEM_REQUESTED
+		type: C.GET_NETWORK_HISTORY_ITEM_REQUESTED
 	}
 }
 
 function getNetworkHistoryItemRejectedAction() {
 	return {
-		type: ActionTypes.GET_NETWORK_HISTORY_ITEM_REJECTED
+		type: C.GET_NETWORK_HISTORY_ITEM_REJECTED
 	}
 }
 
 function getNetworkHistoryItemFulfilledAction(data) {
 	return {
-		type: ActionTypes.GET_NETWORK_HISTORY_ITEM_FULFILLED,
+		type: C.GET_NETWORK_HISTORY_ITEM_FULFILLED,
 		payload: data
 	}
 }
@@ -79,19 +80,19 @@ export function createNetworkHistoryItem(networkId, data) {
 
 function createNetworkHistoryItemRequestedAction() {
 	return {
-		type: ActionTypes.CREATE_NETWORK_HISTORY_ITEM_REQUESTED
+		type: C.CREATE_NETWORK_HISTORY_ITEM_REQUESTED
 	}
 }
 
 function createNetworkHistoryItemRejectedAction() {
 	return {
-		type: ActionTypes.CREATE_NETWORK_HISTORY_ITEM_REJECTED
+		type: C.CREATE_NETWORK_HISTORY_ITEM_REJECTED
 	}
 }
 
 function createNetworkHistoryItemFulfilledAction(network) {
 	return {
-		type: ActionTypes.CREATE_NETWORK_HISTORY_ITEM_FULFILLED,
+		type: C.CREATE_NETWORK_HISTORY_ITEM_FULFILLED,
 		payload: network
 	}
 }
@@ -102,16 +103,16 @@ function createNetworkHistoryItemFulfilledAction(network) {
 export function updateNetwork(networkId, data) {
 	return dispatch => {
 		dispatch( updateNetworkRequestedAction() );
-		const networkRef = firebase.database()
-								   .ref('networks')
-								   .child(networkId)
-								   .update(data)
-								   .then( () => {
-								  	 dispatch( updateNetworkFulfilledAction( data ) )
-								   })
-								   .catch( (error) => {
-								  	 dispatch( updateNetworkRejectedAction() )
-								   })
+		firebase.database()
+			   .ref('networks')
+			   .child(networkId)
+			   .update(data)
+			   .then( () => {
+			  	 dispatch( updateNetworkFulfilledAction( data ) )
+			   })
+			   .catch( (error) => {
+			  	 dispatch( updateNetworkRejectedAction() )
+			   })
 	}
 }
 

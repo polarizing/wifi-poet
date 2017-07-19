@@ -4,11 +4,9 @@ import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers/rootReducer';
 
 const logger = createLogger();
+const middlewares = [thunk, logger]
 
-const store = createStore(
-		rootReducer,
-		{}, 
-		applyMiddleware(thunk, logger)
-	);
+const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
+const store = createStoreWithMiddleware(rootReducer);
 
 export default store;

@@ -2,10 +2,11 @@ import { connect } from 'react-redux';
 import NetworkItem from '../components/NetworkItem.jsx';
 import { createNetworkHistoryItem } from '../actions/networks';
 import { updateNetwork } from '../actions/networks';
-import { watchNetworksChangedEvent } from '../actions/networks';
 
 function mapStateToProps(state) {
+	return {
 
+	}
 }
 
 function mapDispatchToProps(dispatch) {

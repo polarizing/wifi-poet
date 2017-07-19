@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Link, Icon, List, ListItem, FormInput} from 'framework7-react';
+import {Link} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
-import gathering from '../Gathering';
 
 export default class NetworkItem extends Component {
     constructor(props, context) {
@@ -82,7 +81,7 @@ export default class NetworkItem extends Component {
 
         // String has text, store text string in history.
         else {
-          var data = {
+          let data = {
             name: e.target.innerText,
             timestamp: firebase.database.ServerValue.TIMESTAMP,
             author: window.GATHERING.myName,
@@ -121,12 +120,24 @@ export default class NetworkItem extends Component {
       return this.props.networkData.locked && (this.props.networkData.locked !== window.GATHERING.myName)
     }
 
+    editNetwork(e) {
+      // console.log(e);
+      // document.getElementById.focus();
+      // Explicitly focus the text input using the raw DOM API.
+      if (this.textInput !== null) {
+        // console.log(this.textInput.htmlEl.focus());
+        // this.textInput.focus();
+        // this.textInput.focus();
+      }
+    }
+
     render() {
 
         return (
-            <div className="wifi-network">
+            <div className="wifi-network" onClick={(e) => this.editNetwork(e)}>
               <div className="wifi-name">
                   <ContentEditable
+                      ref={(input) => { this.textInput = input; }}
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
                       key={this.props.networkData.id}
                       className="content no-fastclick"
@@ -137,9 +148,9 @@ export default class NetworkItem extends Component {
                   />
               </div>
               <div className="wifi-network-info">
-                  <img style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
-                  <img style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
-                  <img className="wifi-icon" src="wifi.svg"></img>
+                  <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
+                  <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
+                  <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
                   <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} className="wifi-info-icon" iconF7="info" color="blue" />
               </div>
             </div>

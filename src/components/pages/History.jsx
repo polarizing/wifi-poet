@@ -1,13 +1,13 @@
 import React from 'react';
 import {getCurrentRoute} from '../App'
 
-import {Page, ContentBlock, ContentBlockTitle, Navbar, List, ListItem} from 'framework7-react';
+import {Page, Navbar} from 'framework7-react';
 
 import NetworkHistory from '../../containers/networkHistoryContainer'
 
 export const History = (props) => {
 
-    const route = getCurrentRoute();
+    // const route = getCurrentRoute();
     
     return (
         <Page>

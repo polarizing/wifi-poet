@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {Card, Link, Icon, List, ListItem, FormInput, Timeline, TimelineItem} from 'framework7-react';
-import ContentEditable from 'react-contenteditable';
+import {Timeline, TimelineItem} from 'framework7-react';
 import moment from 'moment'
 
 export default class NetworkHistory extends Component {
-    constructor(props, context) {
-        super(props, context); 
-    }
+    // constructor(props, context) {
+    //     super(props, context); 
+    // }
 
     componentWillMount() {
         this.props.onGetNetworkHistoryItem( this.props.networkId );
