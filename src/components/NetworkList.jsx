@@ -43,6 +43,7 @@ export default class NetworkList extends Component {
                     })
                   }
                   <ListItem 
+                              link="/create/"
                               media="<img src='/blank256.png'>"
                               title="创建新的Wi-Fi网络..."
                       >

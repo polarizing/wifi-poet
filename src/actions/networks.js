@@ -97,8 +97,50 @@ function createNetworkHistoryItemFulfilledAction(network) {
 	}
 }
 
+
 /*
-	Edit network name.
+	Update network with properties.
+*/
+export function createNetwork(data) {
+	data.timestamp = firebase.database.ServerValue.TIMESTAMP;
+
+	return dispatch => {
+		dispatch( createNetworkRequestedAction() );
+		firebase.database()
+			   .ref('networks')
+			   .push(data)
+			   .then( (result) => {
+          		 dispatch( createNetworkHistoryItem( result.getKey(), data))
+			  	 dispatch( createNetworkFulfilledAction( data ) )
+			   })
+			   .catch( (error) => {
+			  	 dispatch( createNetworkRejectedAction() )
+			   })
+	}
+}
+
+function createNetworkRequestedAction() {
+	return {
+		type: ActionTypes.CREATE_NETWORK_REQUESTED
+	}
+}
+
+function createNetworkFulfilledAction(network) {
+	return {
+		type: ActionTypes.CREATE_NETWORK_FULFILLED,
+		payload: network
+	}
+}
+
+function createNetworkRejectedAction() {
+	return {
+		type: ActionTypes.CREATE_NETWORK_REJECTED,
+	}
+}
+
+
+/*
+	Update network with properties.
 */
 export function updateNetwork(networkId, data) {
 	return dispatch => {
@@ -134,6 +176,7 @@ function updateNetworkRejectedAction(network) {
 		payload: network
 	}
 }
+
 
 /*
 	Gets all Networks from database.

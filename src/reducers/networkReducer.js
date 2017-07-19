@@ -6,6 +6,8 @@ const initialState = {
 }
 
 export function networkReducer(state = initialState, action) {
+	let error;
+
 	switch(action.type) {
 		case ActionTypes.NETWORKS_CHANGED: {
 			const networks = action.payload;
@@ -70,6 +72,15 @@ export function networkReducer(state = initialState, action) {
 			});
 			return newState;
 		}
+
+		case ActionTypes.CREATE_NETWORK_REQUESTED:
+	   		return { ...state, newNetwork: { ...state.newNetwork, loading: true }}
+		case ActionTypes.CREATE_NETWORK_REJECTED:
+			error = action.payload || "Error in creating network history item."
+			return { ...state, newNetwork: { newNetwork: null, error: error, loading: false}}
+		case ActionTypes.CREATE_NETWORK_FULFILLED:
+			return { ...state, newNetwork: { newNetwork: action.payload, error: null, loading: false}}
+
 
 		case ActionTypes.UPDATE_NETWORK_REQUESTED: {
 			return Object.assign({}, state, {
