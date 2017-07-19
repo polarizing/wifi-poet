@@ -33,12 +33,13 @@ export default class NetworkList extends Component {
                   {
                     this.props.networks.map((item) => {
                       return (
-                        <ListItem 
-                              media="<img src='/blank256.png'>"
-                              key={item.id}
-                              innerSlot= { <NetworkItem networkData={ item } ></NetworkItem> }
-                          >
-                          </ListItem>
+                        <NetworkItem networkData={ item }></NetworkItem>
+                        // <ListItem 
+                        //       media="<img src='/blank256.png'>"
+                        //       key={item.id}
+                        //       innerSlot= { <NetworkItem networkData={ item } ></NetworkItem> }
+                        //   >
+                        //   </ListItem>
                       )
                     })
                   }

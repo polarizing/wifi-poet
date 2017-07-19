@@ -99,7 +99,7 @@ function createNetworkHistoryItemFulfilledAction(network) {
 
 
 /*
-	Update network with properties.
+	Create network.
 */
 export function createNetwork(data) {
 	data.timestamp = firebase.database.ServerValue.TIMESTAMP;

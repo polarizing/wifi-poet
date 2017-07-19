@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'framework7-react';
+import {Link, GridCol, GridRow} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
 
@@ -61,7 +61,7 @@ export default class NetworkItem extends Component {
         this.setLocked( {locked: null}, item );
 
         // Sanitizing content-editable string into plain text.
-        var text = e.target.innerText;
+        var text = e.target.value;
 
         // Check if string is blank or contains only white-space or null / undefined.
         // If string is blank, then rewrite database value with pre-focus value stored in client state
@@ -82,7 +82,7 @@ export default class NetworkItem extends Component {
         // String has text, store text string in history.
         else {
           let data = {
-            name: e.target.innerText,
+            name: e.target.value,
             timestamp: firebase.database.ServerValue.TIMESTAMP,
             author: this.props.user.displayName
           }
@@ -132,11 +132,26 @@ export default class NetworkItem extends Component {
     }
 
     render() {
+ 
 
         return (
-            <div className="wifi-network" onClick={(e) => this.editNetwork(e)}>
-              <div className="wifi-name">
-                  <ContentEditable
+          <GridRow className="wifi-network-row">
+            <GridCol width="75">
+                <div className="wifi-name">
+                  <input
+                      type="text"
+                      key={this.props.networkData.id}
+                      className="content"
+                      disabled={ this.disabled() } 
+                      onBlur={(e) => this.onBlur(e, this.props.networkData)}
+                      maxLength={13}
+                      onChange={(e) => this.onChange(e, this.props.networkData)}
+                      onFocus={(e) => this.onFocus(e, this.props.networkData)}
+                      value={ this.props.networkData.name }
+                      ref={(input) => this.textInput = input} 
+                      />
+
+                 {/* <ContentEditable
                       ref={(input) => { this.textInput = input; }}
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
                       key={this.props.networkData.id}
@@ -145,15 +160,19 @@ export default class NetworkItem extends Component {
                       disabled={ this.disabled() }       // use true to disable edition
                       onChange={(e) => this.onChange(e, this.props.networkData)} // handle innerHTML change
                       onFocus={(e) => this.onFocus(e, this.props.networkData)}
-                  />
+                  /> */}
               </div>
-              <div className="wifi-network-info">
-                  <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
-                  <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
-                  <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
-                  <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} className="wifi-info-icon" iconF7="info" color="blue" />
-              </div>
-            </div>
+            </GridCol>
+            <GridCol width="25" className="wifi-network-icons-col">
+                <div className="wifi-network-info">
+                    <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
+                    <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
+                    <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
+                    <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} className="wifi-info-icon" iconF7="info" color="blue" />
+                </div>
+            </GridCol>
+          </GridRow>
+           
         );
     }
 };

@@ -46,6 +46,7 @@ export default class CreateNetworkForm extends Component {
                     <input
                       placeholder="你的网络叫什么?"
                       type="text"
+                      maxLength={13}
                       onChange={(e) => {this.handleNetworkNameChange(e)}}
                       value={this.state.name}
                       ref={(input) => this.input = input} />
@@ -54,6 +55,7 @@ export default class CreateNetworkForm extends Component {
                     <FormLabel>作者</FormLabel>
                     <input
                       type="text"
+                      maxLength={10}
                       value={this.state.author}
                       onChange={(e) => {this.handleAuthorChange(e)}}
                       ref={(input) => this.input = input} />
