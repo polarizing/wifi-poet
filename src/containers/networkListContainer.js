@@ -7,6 +7,7 @@ function mapStateToProps(state) {
 	return {
 		networks: state.network.items,
 		live: state.network.live,
+		user: state.user.activeUser.data,
 	}
 }
 

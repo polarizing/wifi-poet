@@ -145,6 +145,16 @@ function createNetworkRejectedAction() {
 export function updateNetwork(networkId, data) {
 	return dispatch => {
 		dispatch( updateNetworkRequestedAction() );
+		
+		// If we set a lock, we also set an onDisconnect unlock handler.
+		if (data.locked) {
+			firebase.database()
+				.ref('networks')
+				.child(networkId)
+				.onDisconnect()
+				.update({locked: null})
+		}
+
 		firebase.database()
 			   .ref('networks')
 			   .child(networkId)

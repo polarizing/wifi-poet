@@ -3,7 +3,7 @@ import {Icon, Link, GridCol, GridRow} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
 
-export default class NetworkItem extends Component {
+class NetworkItem extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -19,6 +19,10 @@ export default class NetworkItem extends Component {
 
     componentDidMount() {
       
+    }
+
+    componentWillReceiveProps(nextProps) {
+      console.log(nextProps)
     }
 
     onChange(e, item) {
@@ -142,7 +146,7 @@ export default class NetworkItem extends Component {
                       type="text"
                       key={this.props.networkData.id}
                       className="content"
-                      disabled={ this.disabled() } 
+                      disabled={ this.disabled()  } 
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
                       maxLength={13}
                       onChange={(e) => this.onChange(e, this.props.networkData)}
@@ -178,3 +182,6 @@ export default class NetworkItem extends Component {
         );
     }
 };
+
+
+export default NetworkItem;

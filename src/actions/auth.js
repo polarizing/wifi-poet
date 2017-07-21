@@ -2,6 +2,7 @@ import * as firebase from "firebase";
 import C from "../constants";
 import { auth } from "../firebase";
 import { getUser } from '../actions/user';
+import Gathering from '../Gathering';
 
 export const listenToAuth = () => (dispatch, getState) => {
 
@@ -20,6 +21,9 @@ export const listenToAuth = () => (dispatch, getState) => {
   }
 
   function createNewUser() {
+
+    window.GATHERING = new Gathering(firebase.database());
+
     var userCountRef = firebase.database().ref('/userCount')
     var tempName;
     // alert('Creating new user in database ...');
@@ -43,6 +47,7 @@ export const listenToAuth = () => (dispatch, getState) => {
               isAnonymous: true,
               // username: authData.providerData[0].displayName
             });
+            window.GATHERING.join(result.getKey(), tempName)
             dispatch(getUser(result.getKey()))
          })
   }
