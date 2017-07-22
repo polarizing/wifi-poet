@@ -1,6 +1,7 @@
 import {History} from './components/pages/History';
 import {CreateNetwork} from './components/pages/create'
 import {Form} from './components/pages/Form';
+import {About} from './components/pages/about';
 
 export const routes = [
 {
@@ -9,6 +10,9 @@ export const routes = [
 }, {
     path: '/form/',
     component: Form
+}, {
+    path: '/about/',
+    component: About
 }, {
 	path: '/create/',
 	component: CreateNetwork

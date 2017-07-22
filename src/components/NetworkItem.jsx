@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Icon, Link, GridCol, GridRow} from 'framework7-react';
 import firebase from '../firebase.js';
-import ContentEditable from 'react-contenteditable';
 import classNames from 'classnames'
 
 class NetworkItem extends Component {
@@ -26,7 +25,7 @@ class NetworkItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      var randomTime = Math.floor(Math.random() * 1000) + 250;
+      var randomTime = Math.floor(Math.random() * 1000) + 300;
 
       if (nextProps.editable !== this.props.editable) {
         // blinking animation
@@ -206,17 +205,6 @@ class NetworkItem extends Component {
                       value={ this.props.networkData.name }
                       ref={(input) => this.textInput = input} 
                       />
-
-                 {/* <ContentEditable
-                      ref={(input) => { this.textInput = input; }}
-                      onBlur={(e) => this.onBlur(e, this.props.networkData)}
-                      key={this.props.networkData.id}
-                      className="content no-fastclick"
-                      html={this.props.networkData.name} // innerHTML of the editable div
-                      disabled={ this.disabled() }       // use true to disable edition
-                      onChange={(e) => this.onChange(e, this.props.networkData)} // handle innerHTML change
-                      onFocus={(e) => this.onFocus(e, this.props.networkData)}
-                  /> */}
               </div>
             </GridCol>
             <GridCol width="25" className="wifi-network-icons-col">

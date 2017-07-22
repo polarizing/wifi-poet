@@ -70,9 +70,9 @@ body.with-panel-left-cover .statusbar-overlay {
 	margin-right: 15px;
 }
 .wifi-icon {
-	width: 16px;
-	height: 13px;
-	/*top:2px;*/
+	width: 18px;
+	height: 15px;
+	top:1px;
 	bottom: 0px;
 	position:relative;
 	right: 10px;
@@ -215,9 +215,19 @@ body.with-panel-left-cover .statusbar-overlay {
 	left:1px;
 }
 
+.footer-text {
+	text-align: center;
+}
+
 #wifi-top {
 	fill: #bbbbbb;
 }
+
+.home-back {
+	position: relative;
+	left: 10px;
+}
+
 
 input,
 textarea,

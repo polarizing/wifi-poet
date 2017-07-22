@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import { NavLeft, Link, NavCenter, NavRight, Views, View, Navbar, Pages, Page} from 'framework7-react';
+import { Icon, NavLeft, Link, NavCenter, NavRight, Views, View, Navbar, Pages, Page} from 'framework7-react';
 
 import Auth from './Auth';
 import NetworkList from '../containers/networkListContainer';
@@ -12,9 +12,12 @@ const MainViews = (props, context) => {
 				{/* Navbar */}
 				{context.framework7AppContext.theme.ios ? (
 					<Navbar>
-						{/*<NavLeft>
-							<Link icon="icon-bars" openPanel="left" />
-						</NavLeft>*/}
+						<NavLeft>
+
+							<Link href={"/about/"}>
+								<Icon f7="left" className="home-back"></Icon>
+							</Link>
+						</NavLeft>
 						<NavCenter sliding>Wi-Fi Poet</NavCenter>
 						{/*<NavRight>
 							<Link icon="icon-bars" openPanel="right"></Link>
@@ -27,7 +30,7 @@ const MainViews = (props, context) => {
 						{context.framework7AppContext.theme.material ? (
 							<Navbar>
 								<NavLeft>
-									<Link icon="icon-bars" openPanel="left" />
+									<Link f7="chevron-left" openPanel="left" />
 								</NavLeft>
 								<NavCenter sliding>Framework7</NavCenter>
 								<NavRight>

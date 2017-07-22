@@ -62,6 +62,14 @@ class NetworkList extends Component {
       
     }
 
+    getNetworkCreationLink() {
+      // if (this.props.networks.length >= 16) {
+      //   return ""
+      // } else {
+        return "/create/"
+      // }
+    }
+
     render() {
         return (
             <div>
@@ -88,8 +96,10 @@ class NetworkList extends Component {
                 title= { moment().locale('zh-cn').format('MMM Do YYYY') }
                 innerSlot={
                     <span className="">
+                        <Link href={"/about/"} >
                         <img role="presentation" className="wifi-icon" src="wifi_3.svg"></img>
                         <Icon className="wifi-info-icon" f7="info" size="22px" color="blue"></Icon>
+                        </Link>
                     </span>
                 }
               >
@@ -114,12 +124,19 @@ class NetworkList extends Component {
                     })
                   }
                   <ListItem 
-                              link="/create/"
+                              link={ this.getNetworkCreationLink() }
                               media="<img src='/blank256.png'>"
                               title="创建新的Wi-Fi网络..."
                       >
                   </ListItem>
               </List>
+              <ContentBlockTitle> 
+                <GridRow noGutter>
+                  <GridCol width="10"></GridCol>
+                  <GridCol width="80"><div className="footer-text">Wifi Poet v0.4 | NerveMilk</div></GridCol>
+                  <GridCol width="10"></GridCol>
+                </GridRow>
+              </ContentBlockTitle>
             </div>
         );
     }
