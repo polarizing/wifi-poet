@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Icon, Link, GridCol, GridRow} from 'framework7-react';
 import firebase from '../firebase.js';
 import ContentEditable from 'react-contenteditable';
+import classNames from 'classnames'
 
 class NetworkItem extends Component {
     constructor(props, context) {
@@ -9,7 +10,10 @@ class NetworkItem extends Component {
 
         this.state = {
             onFocusValue: null,
-            disabled: false
+            disabled: false,
+            wifi: 0,
+            timeouts: [],
+            wifiStrength: Math.floor(Math.random() * 3) + 1
         }
 
         this.onChange = this.onChange.bind(this);
@@ -22,7 +26,34 @@ class NetworkItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      console.log(nextProps)
+      var randomTime = Math.floor(Math.random() * 1000) + 250;
+
+      if (nextProps.editable !== this.props.editable) {
+        // blinking animation
+        if ( nextProps.editable ) {
+
+          var timeoutOne = setTimeout(() => {
+            this.setState({wifi: 1})
+          }, randomTime)
+          var timeoutTwo = setTimeout(() => {
+            this.setState({wifi: 2})
+          }, randomTime * 2)
+          var timeoutThree = setTimeout(() => {
+            this.setState({wifi: 3})
+          }, randomTime * 3.5)
+
+        this.state.timeouts.push( timeoutOne );
+        this.state.timeouts.push( timeoutTwo );
+        this.state.timeouts.push( timeoutThree );
+
+        } else {
+          for (var i = 0; i < this.state.timeouts.length; i++) {
+            clearTimeout( this.state.timeouts[i] );
+          }
+            this.setState({wifi: 0})
+          }
+        }
+
     }
 
     onChange(e, item) {
@@ -30,6 +61,7 @@ class NetworkItem extends Component {
           const data = {
             name: e.target.value
           }
+
 
           this.props.onUpdateNetwork( item.id, data );
 
@@ -135,8 +167,28 @@ class NetworkItem extends Component {
       }
     }
 
+    getWifiIconState(num) {
+      if (num === this.state.wifi && (num === 0 || num === 3) ) {
+        return classNames({
+          'wifi-icon': true,
+        });
+      }
+      if (num === this.state.wifi) {
+        var wifiClass = classNames({
+          'wifi-icon': true,
+          'wifi-icon-animation': true
+        });
+        return wifiClass
+      } else {
+        var wifiClass = classNames({
+          'wifi-icon-no-show': true,
+        });
+        return wifiClass
+      }
+
+    }
+
     render() {
- 
 
         return (
           <GridRow className="wifi-network-row">
@@ -146,7 +198,7 @@ class NetworkItem extends Component {
                       type="text"
                       key={this.props.networkData.id}
                       className="content"
-                      disabled={ this.disabled()  } 
+                      disabled={ this.disabled() | !this.props.editable} 
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
                       maxLength={13}
                       onChange={(e) => this.onChange(e, this.props.networkData)}
@@ -172,7 +224,10 @@ class NetworkItem extends Component {
                 <div className="wifi-network-info">
                     <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
                     <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
-                    <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
+                    <img role="presentation" className={ this.getWifiIconState(3) } src="wifi_3.svg"></img>
+                    <img role="presentation" className={ this.getWifiIconState(2) } src="wifi_2.svg"></img>
+                    <img role="presentation" className={ this.getWifiIconState(1) } src="wifi_1.svg"></img>
+                    <img role="presentation" className={ this.getWifiIconState(0) } src="wifi_0.svg"></img>
                     <Icon className="info-icon" f7="info" size="22"></Icon>
                 </div>
                 </Link>

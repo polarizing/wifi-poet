@@ -1,0 +1,50 @@
+.switch {
+    border: 1.5px solid #e5e5e5;
+    width: 50px;
+    height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    /*display: inline-block;*/
+    display:inherit;
+    box-sizing: border-box;
+    transition: background .3s ease;
+}
+
+.switch-toggle {
+    /*border: 1px solid #999;*/
+    border-radius: 15px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.25), 0px 4px 11px 0px rgba(0, 0, 0, 0.08), -1px 3px 3px 0px rgba(0, 0, 0, 0.14);
+    width: 28px;
+    height: 28px;
+    cursor: grab;
+    cursor: -webkit-grab;
+    box-sizing: border-box;
+    left: 0;
+    background: white;
+    position: relative;
+    transition: left .2s ease-in-out, background .5s ease;
+}
+
+  .switch-toggle:active {
+    cursor: -webkit-grabbing;
+    cursor: grabbing; 
+  }
+
+.switch.on {
+	box-sizing: border-box;
+	transition: background .3s ease, border 1s ease;
+    background: #4cd964;
+    border: none;
+    position:relative;
+}
+
+.switch.on .switch-toggle {
+	transition: background .3s ease, border 1s ease, left .2s ease-in-out;
+    left: 20px;
+    top:1px;
+}
+
+.switch.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

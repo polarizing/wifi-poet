@@ -13,7 +13,7 @@ export class CreateNetwork extends Component {
     render() {
         return (
             <Page>
-                <Navbar title="创新网络" backLink="Back" sliding />
+                <Navbar title="创建新网络" backLink="Back" sliding />
                 <CreateNetworkForm />
             </Page>
         )

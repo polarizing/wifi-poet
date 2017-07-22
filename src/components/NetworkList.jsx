@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-import { Navbar, NavRight, Link, List, ListItem, ContentBlockTitle, Preloader, Icon, FormInput} from 'framework7-react';
+import { GridRow, GridCol, Navbar, NavRight, Link, List, ListItem, ContentBlockTitle, Preloader, Icon, FormInput} from 'framework7-react';
 import NetworkItem from '../containers/networkItemContainer'
 import moment from 'moment';
+import Switch from 'react-toggle-switch'
+import Marquee from 'react-text-marquee'
 
+ 
 class NetworkList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-          editable: false,
-          sorting: false
+          checked: false,
         }
     }
 
@@ -29,69 +31,53 @@ class NetworkList extends Component {
     }
 
     onChange(e) {
-      // console.log(e);
-      // console.log(e.target.checked);
-      // console.log(this);
-      // var event = e;
-      // // var currentEditableState = this.state.editable;
-      // this.setState((prevState, props) => {
-      //   console.log(event.target.checked);
-      //     return { editable: event.target.checked };
-      // }, function() {
-      //           console.log(event.target.checked);
-
-      //   console.log(this.state);
-      // })
-
+      console.log(this.state.checked)
     }
 
-    onClick(e) {
-      if(e.target.checked !== undefined) {
-        console.log(e.target.checked)
-        // this.state.editable = e.target.checked
-        // console.log(this.state);
-      // var currentEditableState = this.state.editable;
-        // this.setState((prevState, props) => {
-        //   return { editable: e.target.checked };
-        // }, function() {
-        //   console.log(this.state);
-        // });
-
-        // console.log(e.target.checked)
-      }
-    }
-
-    onOpen() {
-      this.setState({
-        sorting: !this.state.sorting,
-        ...this.state
-      });                
-    }
-
-    onClose() {
-      this.setState({
-        sorting: !this.state.sorting,
-        ...this.state
+    toggleSwitch = () => {
+      this.setState(prevState => {
+        return {
+          checked: !prevState.checked
+        };
+      }, function() {
+        console.log(this.state.checked);
       });
-    }
+    };
 
-    onSort(event, indexes) {
-        console.log('sort', indexes);
+    getInnerStartSlot() {
+      if (this.state.checked) {
+          return (
+              
+              <p className="marquee"><span>📶 你已打开 Wi-Fi Poet 写诗模式. 点击网络名称进行编辑! 📶</span></p>
+                    // <marquee>你已打开Wi-Fi Poet写诗模式！以下网络名字随你任意改写！</marquee>
+              )
+      } else {
+        return (
+              <div className="product-network">
+                <div className="product-text">Wifi-Poet</div>
+                <div className="powered-by-text">Powered by <b>NerveMilk</b>®</div>
+              </div>
+          )
+      }
+      
     }
 
     render() {
         return (
             <div>
             <ContentBlockTitle> 
-                你好, {this.props.user.displayName}! 
+                <GridRow noGutter>
+                  <GridCol width="70">你好, {this.props.user.displayName}! </GridCol>
+                  <GridCol width="30"><div className="editing-mode-text">模式: {this.state.checked ? "编辑" : "浏览"}</div></GridCol>
+                </GridRow>
               </ContentBlockTitle>
             <List className="wifi-network-switch" form>
               <ListItem
                 className="wifi-toggle" 
-                title="Wi-Fi Poet" 
+                innerStartSlot={this.getInnerStartSlot()}
                 innerSlot={
                     <div>
-                        <FormInput type="switch" onClick={(e) => {this.onClick(e)}} onChange={(e) => {this.onChange(e)}}></FormInput>
+                    <Switch on={this.state.checked} onClick={this.toggleSwitch}/>
                     </div>
                 }
               >
@@ -102,43 +88,22 @@ class NetworkList extends Component {
                 title= { moment().locale('zh-cn').format('MMM Do YYYY') }
                 innerSlot={
                     <span className="">
-                        <img role="presentation" className="wifi-icon" src="wifi.svg"></img>
+                        <img role="presentation" className="wifi-icon" src="wifi_3.svg"></img>
                         <Icon className="wifi-info-icon" f7="info" size="22px" color="blue"></Icon>
                     </span>
                 }
               >
               </ListItem>
             </List>
-
-              {/*<ContentBlockTitle> 
-                <div>{ this.getContentBlockTitleString() }</div>
+            
+              <ContentBlockTitle> 
+                { this.getContentBlockTitleString() }
               </ContentBlockTitle>
-              <Navbar backLink="Back" title="Sortable" sliding>
-                <NavRight>
-                  <Link toggleSortable="#sortable">{this.state.sorting ? 'Done' : 'Open'}</Link>
-                </NavRight>
-              </Navbar>
-
-              <List 
-                id="sortable" 
-                sortable 
-                onSortableSort={(e) => this.onSort(e)} 
-                onSortableOpen={(e) => this.onOpen(e)} 
-                onSortableClose={(e) => this.onClose(e)}
-              >
-                {this.props.networks.map((item) => (
-                  <ListItem>
-                    <NetworkItem editable={this.state.editable} key={item.id} networkData={ item }></NetworkItem>
-                  </ListItem>
-                ))}                  
-              </List>
-            */}
-
               <List className="wifi-network-list">
                   {
                     this.props.networks.map((item) => {
                       return (
-                        <NetworkItem editable={this.state.editable} key={item.id} networkData={ item }></NetworkItem>
+                        <NetworkItem editable={this.state.checked} key={item.id} networkData={ item }></NetworkItem>
                         // <ListItem 
                         //       media="<img src='/blank256.png'>"
                         //       key={item.id}
