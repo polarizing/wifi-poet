@@ -93,7 +93,7 @@ class NetworkList extends Component {
                <ListItem
                 className="wifi-connected-network"
                 media= '<i class="f7-icons color-blue wifi-connected-icon">check</i>'
-                title= { moment().locale('zh-cn').format('MMM Do YYYY') }
+                title= { moment().locale('zh-cn').format('L') }
                 innerSlot={
                     <span className="">
                         <Link href={"/about/"} >
