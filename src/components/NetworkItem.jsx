@@ -210,8 +210,10 @@ class NetworkItem extends Component {
             <GridCol width="25" className="wifi-network-icons-col">
                 <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} >
                 <div className="wifi-network-info">
-                    <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
-                    <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
+                    {/*<img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
+                    <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>*/}
+                    <Icon className="pencil-icon" style={ this.pencilStyle() } color="black" f7="unlock_fill" size="14"></Icon>
+                    <Icon className="lock-icon" style={ this.lockStyle() } color="black" f7="lock_fill" size="14"></Icon>
                     <img role="presentation" className={ this.getWifiIconState(3) } src="wifi_3.svg"></img>
                     <img role="presentation" className={ this.getWifiIconState(2) } src="wifi_2.svg"></img>
                     <img role="presentation" className={ this.getWifiIconState(1) } src="wifi_1.svg"></img>

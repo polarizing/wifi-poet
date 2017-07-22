@@ -115,6 +115,7 @@ body.with-panel-left-cover .statusbar-overlay {
 	height: 16px;
 	position:relative;
 	right: 22px;
+	bottom: 2px;
 }
 
 .timeline {
