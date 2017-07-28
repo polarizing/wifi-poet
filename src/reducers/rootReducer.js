@@ -1,15 +1,6 @@
 import { combineReducers } from 'redux';
-import { authReducer } from './authReducer';
-import { userReducer } from './userReducer';
-import { networkReducer } from './networkReducer';
-import { networkHistoryReducer } from './networkHistoryReducer';
+import reducers from './index';
 
-const rootReducer = combineReducers({
-	auth: authReducer,
-	network: networkReducer,
-	networkHistory: networkHistoryReducer,
-	user: userReducer,
-})
-
+const rootReducer = combineReducers(reducers)
 
 export default rootReducer;

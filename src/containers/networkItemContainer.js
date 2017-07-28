@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import NetworkItem from '../components/NetworkItem.jsx';
-import { createNetworkHistoryItem } from '../actions/networks';
-import { updateNetwork } from '../actions/networks';
+import { createNetworkHistoryItem } from '../actions/network';
+import { updatePoem } from '../actions/poem';
 
 function mapStateToProps(state) {
 	return {
@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		onCreateNetworkHistoryItem: ( networkId, data ) => dispatch( createNetworkHistoryItem( networkId, data ) ),
-		onUpdateNetwork: ( networkId, data ) => dispatch( updateNetwork( networkId, data) )
+		onUpdatePoem: ( networkId, data ) => dispatch( updatePoem( networkId, data) ),
 	};
 }
 

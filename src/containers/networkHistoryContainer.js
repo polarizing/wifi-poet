@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import NetworkHistory from '../components/NetworkHistory.jsx';
-import { getNetworkHistoryItem } from '../actions/networks';
-// import { watchNetworkHistoryChangedEvent } from '../actions/networks';
+import { getNetworkHistoryItem } from '../actions/network';
 
 function mapStateToProps(state) {
 	return {
-		history: state.networkHistory.networkHistoryItemList.history,
+		history: state.history.networkHistoryItemList.history,
 	}
 }
 

@@ -6,7 +6,7 @@ const initialState = {
   status: C.AUTH_ANONYMOUS
 };
 
-export function authReducer (state, action) {
+function auth (state, action) {
   switch (action.type) {
     case C.AUTH_OPEN:
       return {
@@ -30,3 +30,8 @@ export function authReducer (state, action) {
       return state || initialState;
   }
 };
+
+
+module.exports = {
+  auth,
+}

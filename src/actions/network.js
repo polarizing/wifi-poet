@@ -1,6 +1,7 @@
-import ActionTypes from '../constants/actionTypes';
 import firebase from '../firebase';
 import C from '../constants';
+import { createPoem } from './poem';
+import { updatePoem } from './poem';
 
 /*
 	REDUX CRUD -- CREATE, GET, UPDATE, DELETE
@@ -18,7 +19,7 @@ export function watchNetworksChangedEvent(dispatch) {
 
 function watchNetworksChangedAction(networks) {
 	return {
-		type: ActionTypes.NETWORKS_CHANGED,
+		type: C.NETWORKS_CHANGED,
 		payload: networks
 	}
 }
@@ -33,6 +34,7 @@ export function getNetworkHistoryItem(networkId) {
 			   .ref('history')
 			   .child(networkId)
 			   .once('value', snap => {
+
 					dispatch( getNetworkHistoryItemFulfilledAction( snap.val() ) );
 				})
 				.catch( (error) => {
@@ -68,13 +70,27 @@ export function createNetworkHistoryItem(networkId, data) {
 	return dispatch => {
 		dispatch( createNetworkHistoryItemRequestedAction() );
 		const networkRef = firebase.database().ref('/history/' + networkId);
-		networkRef.push( data )
-				  .then( () => {
-				  	dispatch( createNetworkHistoryItemFulfilledAction( data ) )
-				  })
-				  .catch( (error) => {
-				  	dispatch( createNetworkHistoryItemRejectedAction() )
-				  })
+
+		// Atomic update
+		var newNetworkHistoryKey = firebase.database().ref('/history/' + networkId).push().key;
+		// Write the new post's data simultaneously in the network history list and the poem list.
+		var updates = {};
+		updates['/history/' + networkId + '/' + newNetworkHistoryKey] = data;
+		updates['/poem/' + networkId + '/newNetworkHistoryKey'] = newNetworkHistoryKey;
+		updates['/poem/' + networkId + '/updated_at'] = data.timestamp;
+		return firebase.database().ref().update(updates);
+
+		// networkRef.push( data )
+		// 		  .then( (result) => {
+
+		// 		  	dispatch( updatePoem( networkId, { currentNetworkHistoryUid: result.getKey() } ) );
+
+		// 		  	dispatch( createNetworkHistoryItemFulfilledAction( data ) )
+
+		// 		  })
+		// 		  .catch( (error) => {
+		// 		  	dispatch( createNetworkHistoryItemRejectedAction() )
+		// 		  })
 	}
 }
 
@@ -102,39 +118,60 @@ function createNetworkHistoryItemFulfilledAction(network) {
 	Create network.
 */
 export function createNetwork(data) {
-	data.timestamp = firebase.database.ServerValue.TIMESTAMP;
+	data.created_at = firebase.database.ServerValue.TIMESTAMP;
 
 	return dispatch => {
 		dispatch( createNetworkRequestedAction() );
-		firebase.database()
-			   .ref('networks')
-			   .push(data)
-			   .then( (result) => {
-          		 dispatch( createNetworkHistoryItem( result.getKey(), data))
-			  	 dispatch( createNetworkFulfilledAction( data ) )
-			   })
-			   .catch( (error) => {
-			  	 dispatch( createNetworkRejectedAction() )
-			   })
+		
+		// Atomic update
+		var newNetworkKey = firebase.database().ref('/networks/').push().key;
+		var newNetworkHistoryKey = firebase.database().ref('/history/' + newNetworkKey).push().key;
+		// var newPoemKey = firebase.database().ref('/poem/').push().key;
+
+		var updates = {};
+		updates['/networks/' + newNetworkKey ] = data;
+		updates['/history/' + newNetworkKey + '/' + newNetworkHistoryKey] = data;
+
+		var poemData = Object.assign( {}, data, { 'networkHistoryKey': newNetworkHistoryKey, 'updated_at': data.created_at} )
+		updates['/poem/' + newNetworkKey] = poemData;
+
+		return firebase.database().ref().update(updates);
+
+
+		// firebase.database()
+		// 	   .ref('networks')
+		// 	   .push(data)
+		// 	   .then( (result) => {
+					
+		// 	   	 dispatch( createPoem( result.getKey(), data ) );
+
+  //         		 dispatch( createNetworkHistoryItem( result.getKey(), data))
+
+		// 	  	 dispatch( createNetworkFulfilledAction( data ) );
+			  	 
+		// 	   })
+		// 	   .catch( (error) => {
+		// 	  	 dispatch( createNetworkRejectedAction() )
+		// 	   })
 	}
 }
 
 function createNetworkRequestedAction() {
 	return {
-		type: ActionTypes.CREATE_NETWORK_REQUESTED
+		type: C.CREATE_NETWORK_REQUESTED
 	}
 }
 
 function createNetworkFulfilledAction(network) {
 	return {
-		type: ActionTypes.CREATE_NETWORK_FULFILLED,
+		type: C.CREATE_NETWORK_FULFILLED,
 		payload: network
 	}
 }
 
 function createNetworkRejectedAction() {
 	return {
-		type: ActionTypes.CREATE_NETWORK_REJECTED,
+		type: C.CREATE_NETWORK_REJECTED,
 	}
 }
 
@@ -145,16 +182,6 @@ function createNetworkRejectedAction() {
 export function updateNetwork(networkId, data) {
 	return dispatch => {
 		dispatch( updateNetworkRequestedAction() );
-		
-		// If we set a lock, we also set an onDisconnect unlock handler.
-		if (data.locked) {
-			firebase.database()
-				.ref('networks')
-				.child(networkId)
-				.onDisconnect()
-				.update({locked: null})
-		}
-
 		firebase.database()
 			   .ref('networks')
 			   .child(networkId)
@@ -170,19 +197,19 @@ export function updateNetwork(networkId, data) {
 
 function updateNetworkRequestedAction() {
 	return {
-		type: ActionTypes.UPDATE_NETWORK_REQUESTED
+		type: C.UPDATE_NETWORK_REQUESTED
 	}
 }
 
 function updateNetworkFulfilledAction() {
 	return {
-		type: ActionTypes.UPDATE_NETWORK_FULFILLED
+		type: C.UPDATE_NETWORK_FULFILLED
 	}
 }
 
 function updateNetworkRejectedAction(network) {
 	return {
-		type: ActionTypes.UPDATE_NETWORK_REJECTED,
+		type: C.UPDATE_NETWORK_REJECTED,
 		payload: network
 	}
 }
@@ -209,19 +236,19 @@ export function getNetworks() {
 
 function getNetworksRequestedAction() {
 	return {
-		type: ActionTypes.GET_NETWORKS_REQUESTED
+		type: C.GET_NETWORKS_REQUESTED
 	};
 }
 
 function getNetworksRejectedAction() {
 	return {
-		type: ActionTypes.GET_NETWORKS_REJECTED
+		type: C.GET_NETWORKS_REJECTED
 	};
 }
 
 function getNetworksFulfilledAction(networks) {
 	return {
-		type: ActionTypes.GET_NETWORKS_FULFILLED,
+		type: C.GET_NETWORKS_FULFILLED,
 		payload: networks
 	};
 }

@@ -21,12 +21,10 @@ class NetworkItem extends Component {
     }
 
     componentDidMount() {
-      
     }
 
     componentWillReceiveProps(nextProps) {
-      var randomTime = Math.floor(Math.random() * 1000) + 300;
-
+      var randomTime = Math.floor(Math.random() * 750);
       if (nextProps.editable !== this.props.editable) {
         // blinking animation
         if ( nextProps.editable ) {
@@ -39,7 +37,7 @@ class NetworkItem extends Component {
           }, randomTime * 2)
           var timeoutThree = setTimeout(() => {
             this.setState({wifi: 3})
-          }, randomTime * 3.5)
+          }, randomTime * 3)
 
         this.state.timeouts.push( timeoutOne );
         this.state.timeouts.push( timeoutTwo );
@@ -62,7 +60,7 @@ class NetworkItem extends Component {
           }
 
 
-          this.props.onUpdateNetwork( item.id, data );
+          this.props.onUpdatePoem( item.id, data );
 
     }
 
@@ -88,7 +86,7 @@ class NetworkItem extends Component {
     }
 
     setLocked(status, item) {
-      this.props.onUpdateNetwork( item.id, status );
+      this.props.onUpdatePoem( item.id, status );
     }
 
     onBlur(e, item) {
@@ -105,7 +103,7 @@ class NetworkItem extends Component {
           var data = {
             name: this.state.onFocusValue
           }
-          this.props.onUpdateNetwork( item.id, data );
+          this.props.onUpdatePoem( item.id, data );
         }
 
         // Check if string is same as pre-focus value.
@@ -190,8 +188,7 @@ class NetworkItem extends Component {
     render() {
 
         return (
-          <GridRow className="wifi-network-row">
-            <GridCol width="75">
+          <div className="wifi-network-container">
                 <div className="wifi-name">
                   <input
                       type="text"
@@ -206,14 +203,14 @@ class NetworkItem extends Component {
                       ref={(input) => this.textInput = input} 
                       />
               </div>
-            </GridCol>
-            <GridCol width="25" className="wifi-network-icons-col">
+              <div className="filler"></div>
+              <div className="wifi-link-container">
                 <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} >
                 <div className="wifi-network-info">
-                    {/*<img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
-                    <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>*/}
-                    <Icon className="pencil-icon" style={ this.pencilStyle() } color="black" f7="unlock_fill" size="14"></Icon>
-                    <Icon className="lock-icon" style={ this.lockStyle() } color="black" f7="lock_fill" size="14"></Icon>
+                    <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
+                    <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>
+                    {/*<Icon className="pencil-icon" style={ this.pencilStyle() } color="black" f7="unlock_fill" size="14"></Icon>
+                    <Icon className="lock-icon" style={ this.lockStyle() } color="black" f7="lock_fill" size="14"></Icon> */}
                     <img role="presentation" className={ this.getWifiIconState(3) } src="wifi_3.svg"></img>
                     <img role="presentation" className={ this.getWifiIconState(2) } src="wifi_2.svg"></img>
                     <img role="presentation" className={ this.getWifiIconState(1) } src="wifi_1.svg"></img>
@@ -221,8 +218,8 @@ class NetworkItem extends Component {
                     <Icon className="info-icon" f7="info" size="22"></Icon>
                 </div>
                 </Link>
-            </GridCol>
-          </GridRow>
+              </div>
+          </div>
            
         );
     }

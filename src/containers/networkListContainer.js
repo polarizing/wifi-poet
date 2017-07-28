@@ -1,20 +1,26 @@
 import { connect } from 'react-redux';
 import NetworkList from '../components/NetworkList.jsx';
-import { getNetworks } from '../actions/networks';
-import { watchNetworksChangedEvent } from '../actions/networks';
+import { watchPoemChangedEvent } from '../actions/poem';
+import { deletePoem } from '../actions/poem';
+import { createPendingDeletion } from '../actions/pending';
+import { watchPendingChangedEvent } from '../actions/pending';
 
 function mapStateToProps(state) {
+	console.log(state);
 	return {
-		networks: state.network.items,
-		live: state.network.live,
+		networks: state.poem.items,
+		live: state.poem.live,
 		user: state.user.activeUser.data,
+		pending: state.pending.items,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
-	watchNetworksChangedEvent(dispatch);
+	watchPoemChangedEvent(dispatch);
+	watchPendingChangedEvent(dispatch);
 	return {
-		onGetNetworks: () => dispatch( getNetworks() ),
+		onCreatePendingDeletion: ( networkId, data ) => dispatch( createPendingDeletion( networkId, data ) ),
+		onDeletePoem: ( networkId, data ) => dispatch( deletePoem( networkId, data ) ),
 	};
 }
 

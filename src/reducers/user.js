@@ -4,7 +4,7 @@ const INITIAL_STATE = {
 	activeUser: { data: {displayName: null, isAnonymous: null}, error: null, loading: false },
 }
 
-export function userReducer(state = INITIAL_STATE, action) {
+function user(state = INITIAL_STATE, action) {
 	
 	let error;
 
@@ -21,4 +21,9 @@ export function userReducer(state = INITIAL_STATE, action) {
 		default:
 			return state;
 	}
+}
+
+
+module.exports = {
+	user,
 }

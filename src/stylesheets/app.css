@@ -17,14 +17,15 @@ body.with-panel-left-cover .statusbar-overlay {
 }       
 
 .wifi-network-row {
-	padding-left: 15px;
+	/*padding-left: 15px;*/
+	width: 100%;
 }
 
 .wifi-network-row:after {
     content: "";
     display: block;
     width: 100%;
-    border-bottom: 0.5px solid #ccc;
+    /*border-bottom: 0.5px solid #ccc;*/
 }
 
 .wifi-network-icons-col {
@@ -33,16 +34,25 @@ body.with-panel-left-cover .statusbar-overlay {
 	align-items: center;
 	justify-content: flex-end;
 }
-
-.wifi-name {
-	display: inline-block;
+.wifi-network-container {
 	width: 100%;
-	padding-left: 29px;
+	display: flex;
+}
+.wifi-name {
+	flex: 0 0 80%;
+}
+.filler {
+	flex-grow: 1;
+}
+.wifi-link-container {
+	/*flex: 0 0 20%;*/
 }
 
+.wifi-name input {
+	height: 100%!important;
+}
 .wifi-name input[disabled] {
 	opacity: 1;
-	/*height: 100%!important;*/
 }
 .wifi-connected-icon {
 	font-size: 19px!important;
@@ -56,9 +66,15 @@ body.with-panel-left-cover .statusbar-overlay {
 	bottom: 2.5px!important;
 
 }
+.wifi-network-list {
+	overflow: hidden;
+}
 .wifi-network-list .item-inner {
 	padding-right: 15px!important;
 	background-image: none!important;
+}
+.wifi-network-list ul {
+	padding-left: 0!important;
 }
 
 .wifi-network {
@@ -67,7 +83,6 @@ body.with-panel-left-cover .statusbar-overlay {
 
 .wifi-network-info {
 	display:inline-block;
-	margin-right: 15px;
 }
 .wifi-icon {
 	width: 18px;
@@ -115,7 +130,7 @@ body.with-panel-left-cover .statusbar-overlay {
 	height: 16px;
 	position:relative;
 	right: 22px;
-	bottom: 2px;
+	/*bottom: 2px;*/
 }
 
 .timeline {

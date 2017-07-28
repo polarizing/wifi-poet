@@ -18,7 +18,7 @@ const MainViews = (props, context) => {
 								<Icon f7="left" className="home-back"></Icon>
 							</Link>
 						</NavLeft>
-						<NavCenter sliding>Wi-Fi Poet</NavCenter>
+						<NavCenter sliding>Wifi-Poet</NavCenter>
 						{/*<NavRight>
 							<Link icon="icon-bars" openPanel="right"></Link>
 						</NavRight>*/}

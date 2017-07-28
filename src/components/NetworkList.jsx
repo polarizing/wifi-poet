@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import { GridRow, GridCol, Navbar, NavRight, Link, List, ListItem, ContentBlockTitle, Preloader, Icon, FormInput} from 'framework7-react';
+import { GridRow, GridCol, Navbar, NavRight, Link, List, ListItemSwipeoutActions, ListItemSwipeoutButton, ListItem, ContentBlockTitle, Preloader, Icon, FormInput} from 'framework7-react';
 import NetworkItem from '../containers/networkItemContainer'
 import moment from 'moment';
 import Switch from 'react-toggle-switch'
 import Marquee from 'react-text-marquee'
+import {getFramework7} from './App'
+import ReactDOM from 'react-dom'
+import Transition from 'react-motion-ui-pack'
+import { spring } from 'react-motion';
 
  
 class NetworkList extends Component {
@@ -11,11 +15,52 @@ class NetworkList extends Component {
         super(props, context);
         this.state = {
           checked: false,
+          swipeout: {
+            element: null,
+            delete: false
+          },
+          networks: []
         }
     }
 
     componentWillMount() {
-      this.props.onGetNetworks()
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+      var self = this;
+      if (nextProps.networks !== this.props.networks) {
+        console.log('whoa');
+        // ANY DELETED?
+        var deleted = [];
+        this.props.networks.forEach( (oldNetwork) => {
+          var newHasOld = false;
+          nextProps.networks.forEach( (newNetwork) => {
+            if (newNetwork.id === oldNetwork.id) newHasOld = true;
+          })
+          if (!newHasOld) deleted.push( oldNetwork );
+        })
+
+        // getFramework7().swipeoutDelete(this.state.swipeout.element, function() {
+          //   console.log('closed element');
+          // })
+
+        // Animate deletion.
+        for (var i = 0; i < deleted.length; i++) {
+          console.log(deleted[i].id);
+          var deletedDOMNode = ReactDOM.findDOMNode(this.refs[ deleted[i].id ]);
+          // getFramework7().swipeoutDelete(deletedDOMNode, function() {
+            // console.log('closed element');
+            // self.state.networks = nextProps.networks;
+          // })
+        }
+
+        console.log('Deleted');
+        console.log(deleted);
+        // if (deleted.length <= 0) {
+          this.state.networks = nextProps.networks;
+        // }
+      }
     }
 
     getContentBlockTitleString() {
@@ -48,7 +93,7 @@ class NetworkList extends Component {
       if (this.state.checked) {
           return (
               
-              <p className="marquee"><span>📶 你已打开 Wi-Fi Poet 写诗模式. 点击网络名称进行编辑! 📶</span></p>
+              <p className="marquee"><span>📶 你已打开 Wifi-Poet 写诗模式，点击网络名称进行编辑 📶</span></p>
                     // <marquee>你已打开Wi-Fi Poet写诗模式！以下网络名字随你任意改写！</marquee>
               )
       } else {
@@ -60,6 +105,52 @@ class NetworkList extends Component {
           )
       }
       
+    }
+
+    onSwipeoutOpen(e) {
+      this.setState(prevState => {
+        return {
+          swipeout: {
+            element: e.target,
+            delete: false
+          }
+        }
+      })
+    }
+
+    swipeoutClick(e) {
+      if (this.state.checked) {
+          var currSwipeoutElement = this.state.swipeout.element;
+            this.setState(prevState => {
+              return {
+                swipeout: {
+                  element: currSwipeoutElement,
+                  delete: true
+                }
+              }
+            })
+      }
+    }
+
+    onSwipeoutClosed(e, networkId) {
+
+      if (this.state.swipeout.delete) {
+
+        var data = {
+          action: 0,
+          initiated_by: this.props.user.displayName,
+          ends_in: 3000,
+        }
+
+        this.props.onCreatePendingDeletion(networkId, data)
+        // set database delete mode ... 3 ... 2 ... 1 ...
+        setTimeout(() => {
+          this.props.onDeletePoem(networkId, { deleted_by: this.props.user.displayName });
+          // getFramework7().swipeoutDelete(this.state.swipeout.element, function() {
+          //   console.log('closed element');
+          // })
+        }, 3000)
+      }
     }
 
     getNetworkCreationLink() {
@@ -109,26 +200,58 @@ class NetworkList extends Component {
               <ContentBlockTitle> 
                 { this.getContentBlockTitleString() }
               </ContentBlockTitle>
+              
               <List className="wifi-network-list">
+              <Transition
+                          component="ul"
+                          enter={{
+                             opacity: 1, translateY: spring(0, { stiffness: 400, damping: 10 }), height: 44
+                          }}
+                          leave={{
+                            opacity: 0,  translateY: 0, height: 0
+                          }}
+                          runOnMount={true}
+                        >  
+                         
                   {
-                    this.props.networks.map((item) => {
+                    this.state.networks.map((item, index) => {
                       return (
-                        <NetworkItem editable={this.state.checked} key={item.id} networkData={ item }></NetworkItem>
-                        // <ListItem 
-                        //       media="<img src='/blank256.png'>"
-                        //       key={item.id}
-                        //       innerSlot= { <NetworkItem networkData={ item } ></NetworkItem> }
-                        //   >
+                        // <div>
+                        //   <ListItem swipeout title="Item 1" onSwipeoutDeleted={(e) => this.onSwipeoutDeleted(e)}>
+                        //     <ListItemSwipeoutActions>
+                        //       <ListItemSwipeoutButton delete>Delete</ListItemSwipeoutButton>
+                        //     </ListItemSwipeoutActions>
                         //   </ListItem>
+                        // </div>
+                        // <NetworkItem editable={this.state.checked} key={item.id} networkData={ item }></NetworkItem>
+                        
+
+                          <ListItem 
+                              ref={item.id}
+                              onSwipeoutOpen={(e) => this.onSwipeoutOpen(e)}
+                              onSwipeoutClosed={(e) => this.onSwipeoutClosed(e, item.id)}
+                              swipeout
+                              media="<img src='/blank256.png'>"
+                              key={item.id}
+                              innerSlot= { <NetworkItem editable={this.state.checked} key={item.id} networkData={ item } ></NetworkItem> }
+                          >
+                          
+                          { this.state.checked ? <ListItemSwipeoutActions>
+                                    <ListItemSwipeoutButton color={this.state.checked ? "red" : "gray"} close={this.state.checked} onClick={(e) => this.swipeoutClick(e)}>删除</ListItemSwipeoutButton>
+                                  </ListItemSwipeoutActions> : null }
+
+                          </ListItem>
                       )
                     })
                   }
                   <ListItem 
+                              key="test-key"
                               link={ this.getNetworkCreationLink() }
                               media="<img src='/blank256.png'>"
                               title="创建新的Wi-Fi网络..."
                       >
                   </ListItem>
+                  </Transition>
               </List>
               <ContentBlockTitle> 
                 <GridRow noGutter>

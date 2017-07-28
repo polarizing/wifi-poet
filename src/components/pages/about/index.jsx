@@ -13,7 +13,7 @@ export class About extends Component {
         return (
             <Page>
                 <Navbar title="About" backLink="Back" sliding />
-                <ContentBlockTitle>Wifi-Poet was founded in 2017.</ContentBlockTitle>
+                <ContentBlockTitle>Wifi-Poet was founded in 2016.</ContentBlockTitle>
             </Page>
         )
     };

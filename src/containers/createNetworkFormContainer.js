@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CreateNetworkForm from '../components/pages/create/createNetworkForm';
-import { createNetwork } from '../actions/networks';
+import { createNetwork } from '../actions/network';
 
 function mapStateToProps(state) {
 	return {
