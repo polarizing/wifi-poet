@@ -60,7 +60,7 @@ class NetworkItem extends Component {
           }
 
 
-          this.props.onUpdatePoem( item.id, data );
+          this.props.onUpdatePoem( item.network_key, data );
 
     }
 
@@ -86,7 +86,7 @@ class NetworkItem extends Component {
     }
 
     setLocked(status, item) {
-      this.props.onUpdatePoem( item.id, status );
+      this.props.onUpdatePoem( item.network_key, status );
     }
 
     onBlur(e, item) {
@@ -103,7 +103,7 @@ class NetworkItem extends Component {
           var data = {
             name: this.state.onFocusValue
           }
-          this.props.onUpdatePoem( item.id, data );
+          this.props.onUpdatePoem( item.network_key, data );
         }
 
         // Check if string is same as pre-focus value.
@@ -116,10 +116,10 @@ class NetworkItem extends Component {
         else {
           let data = {
             name: e.target.value,
-            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            created_at: firebase.database.ServerValue.TIMESTAMP,
             author: this.props.user.displayName
           }
-          this.props.onCreateNetworkHistoryItem( item.id, data )
+          this.props.onCreateNetworkHistoryItem( item.network_key, data )
         }
 
     }
@@ -192,7 +192,7 @@ class NetworkItem extends Component {
                 <div className="wifi-name">
                   <input
                       type="text"
-                      key={this.props.networkData.id}
+                      key={this.props.networkData.network_key}
                       className="content"
                       disabled={ this.disabled() | !this.props.editable} 
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
@@ -205,7 +205,7 @@ class NetworkItem extends Component {
               </div>
               <div className="filler"></div>
               <div className="wifi-link-container">
-                <Link href={"/networks/" + this.props.networkData.id} networkName={this.props.networkData.name} >
+                <Link href={"/networks/" + this.props.networkData.network_key} networkName={this.props.networkData.name} >
                 <div className="wifi-network-info">
                     <img role="presentation" style={ this.pencilStyle() } className="pencil-icon" src="pencil.svg"></img>
                     <img role="presentation" style={ this.lockStyle() } className="lock-icon" src="lock.svg"></img>

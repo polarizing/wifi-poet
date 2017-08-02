@@ -11,24 +11,18 @@ function poem(state = initialState, action) {
 	switch(action.type) {
 		case C.POEM_CHANGED: {
 			const networks = action.payload;
-	        const newNetworks = [];
 	        var newLive = 0;
 
-          	for (let network in networks) {
-            	if (networks[network].locked) {
-              		newLive += 1;
-            	}
-	            newNetworks.push({
-	              id: network,
-	              name: networks[network].name,
-	              locked: networks[network].locked,
-	            })
-          	}
+	        for (var i = 0; i < networks.length; i++) {
+	        	if (networks[i].locked) {
+	        		newLive += 1;
+	        	}
+	        }
 
 			const newState = Object.assign({}, state, {
 				inProgress: false,
 				success: 'Got changed poem.',
-				items: newNetworks,
+				items: networks,
 				live: newLive
 			});
 

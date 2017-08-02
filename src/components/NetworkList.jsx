@@ -28,39 +28,7 @@ class NetworkList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      var self = this;
-      if (nextProps.networks !== this.props.networks) {
-        console.log('whoa');
-        // ANY DELETED?
-        var deleted = [];
-        this.props.networks.forEach( (oldNetwork) => {
-          var newHasOld = false;
-          nextProps.networks.forEach( (newNetwork) => {
-            if (newNetwork.id === oldNetwork.id) newHasOld = true;
-          })
-          if (!newHasOld) deleted.push( oldNetwork );
-        })
-
-        // getFramework7().swipeoutDelete(this.state.swipeout.element, function() {
-          //   console.log('closed element');
-          // })
-
-        // Animate deletion.
-        for (var i = 0; i < deleted.length; i++) {
-          console.log(deleted[i].id);
-          var deletedDOMNode = ReactDOM.findDOMNode(this.refs[ deleted[i].id ]);
-          // getFramework7().swipeoutDelete(deletedDOMNode, function() {
-            // console.log('closed element');
-            // self.state.networks = nextProps.networks;
-          // })
-        }
-
-        console.log('Deleted');
-        console.log(deleted);
-        // if (deleted.length <= 0) {
-          this.state.networks = nextProps.networks;
-        // }
-      }
+   
     }
 
     getContentBlockTitleString() {
@@ -214,7 +182,8 @@ class NetworkList extends Component {
                         >  
                          
                   {
-                    this.state.networks.map((item, index) => {
+                    this.props.networks.map((item, index) => {
+                      console.log(item);
                       return (
                         // <div>
                         //   <ListItem swipeout title="Item 1" onSwipeoutDeleted={(e) => this.onSwipeoutDeleted(e)}>
@@ -227,13 +196,13 @@ class NetworkList extends Component {
                         
 
                           <ListItem 
-                              ref={item.id}
+                              ref={item.network_key}
                               onSwipeoutOpen={(e) => this.onSwipeoutOpen(e)}
-                              onSwipeoutClosed={(e) => this.onSwipeoutClosed(e, item.id)}
+                              onSwipeoutClosed={(e) => this.onSwipeoutClosed(e, item.network_key)}
                               swipeout
                               media="<img src='/blank256.png'>"
-                              key={item.id}
-                              innerSlot= { <NetworkItem editable={this.state.checked} key={item.id} networkData={ item } ></NetworkItem> }
+                              key={item.network_key}
+                              innerSlot= { <NetworkItem editable={this.state.checked} key={item.network_key} networkData={ item } ></NetworkItem> }
                           >
                           
                           { this.state.checked ? <ListItemSwipeoutActions>

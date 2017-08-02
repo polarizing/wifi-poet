@@ -3,13 +3,24 @@ import C from '../constants';
 
 import { updateNetwork } from './network';
 import { deletePendingDeletion } from './pending';
+
 /*
 	Watch for any changes to Poem data.
 */
 
 export function watchPoemChangedEvent(dispatch) {
-	firebase.database().ref('/poem').on('value', (snap) => {
-		dispatch( watchPoemChangedAction( snap.val() ) );
+	var poemRef = firebase.database().ref('poem/');
+	poemRef.orderByKey().on('value', (data) => {
+		var temp = [];
+
+		data.forEach(function(child) {
+			// console.log(child.key);
+			// console.log(child.val())
+			temp.push(child.val());
+		})
+
+		dispatch( watchPoemChangedAction( temp ) );
+		// console.log(data.val());
 	});
 }
 
@@ -34,22 +45,6 @@ export function createPoem(networkId, data) {
 			   .set(data)
 			   .then( (result) => {
 			  	 dispatch( createPoemFulfilledAction( data ) )
-			  	//  firebase.database()
-						// .ref('poem')
-						// .once('value')
-						// .then(function (snapshot) {
-						// 	console.log('value');
-						// 	console.log(snapshot.val())
-						// 	var networks = snapshot.val();
-
-						// 	var data = {
-						// 		timestamp: firebase.database.ServerValue.TIMESTAMP,
-						// 		networks: networks
-						// 	}
-
-						// 	firebase.database().ref('snapshot').push(data);
-						// })
-
 			   })
 			   .catch( (error) => {
 			  	 dispatch( createPoemRejectedAction() )
@@ -87,7 +82,6 @@ export function deletePoem(networkId, data) {
 	// as well as removed from the pending table.
 
     // Deleted disconnect handlers.
-	
 
 	return dispatch => {
 		dispatch( updateNetwork(networkId, data) );
@@ -113,63 +107,11 @@ export function deletePoem(networkId, data) {
 			.remove()
 			.then( (result) => {
 				dispatch( deletePoemFulfilledAction( data ) )
-				// firebase.database()
-				// 		.ref('poem')
-				// 		.once('value')
-				// 		.then(function (snapshot) {
-				// 			console.log('value');
-				// 			console.log(snapshot.val())
-				// 			var networks = snapshot.val();
-							
-				// 			var counter = 0;
-				// 			var data = [];
-				// 			for (var network in networks) {
-				// 				var d = networks[network]
-				// 				data.push({
-				// 					uid: network,
-				// 					author: d.author,
-				// 					name: d.name,
-				// 					timestamp: d.timestamp
-				// 				})
-				// 			}
-
-				// 			var finalData = {
-				// 				timestamp: firebase.database.ServerValue.TIMESTAMP,
-				// 				networks: data,
-				// 				status: 100
-				// 			}
-
-				// 			firebase.database().ref('snapshot').push(finalData);
-				// 		})
 			})
 			.catch( (error) => {
 				dispatch( deletePoemRejectedAction() )
 			})
 	}
-	// firebase.database()
-	// 		.ref('poem')
-	// 		.child(networkId)
-	// 		.remove()
-	// 		.then( () => {
-	// 			dispatch( deletePoemFulfilledAction( data ) )
-	// 		})
-	
-	// dispatch( updatePoemRequestedAction() );
-
-
-	// return dispatch => {
-	// 	dispatch( updatePoemRequestedAction() );
-	// 	firebase.database()
-	// 		   .ref('poem')
-	// 		   .child(networkId)
-	// 		   .update(data)
-	// 		   .then( () => {
-	// 		  	 dispatch( updatePoemFulfilledAction( data ) )
-	// 		   })
-	// 		   .catch( (error) => {
-	// 		  	 dispatch( updatePoemRejectedAction() )
-	// 		   })
-	// }
 }
 
 function deletePoemRequestedAction() {

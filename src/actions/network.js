@@ -64,9 +64,11 @@ function getNetworkHistoryItemFulfilledAction(data) {
 }
 
 /*
-	Add to Network history.
+	Add to Network history and updates poem model.
 */
 export function createNetworkHistoryItem(networkId, data) {
+
+
 	return dispatch => {
 		dispatch( createNetworkHistoryItemRequestedAction() );
 		const networkRef = firebase.database().ref('/history/' + networkId);
@@ -76,21 +78,8 @@ export function createNetworkHistoryItem(networkId, data) {
 		// Write the new post's data simultaneously in the network history list and the poem list.
 		var updates = {};
 		updates['/history/' + networkId + '/' + newNetworkHistoryKey] = data;
-		updates['/poem/' + networkId + '/newNetworkHistoryKey'] = newNetworkHistoryKey;
-		updates['/poem/' + networkId + '/updated_at'] = data.timestamp;
+		updates['/poem/' + networkId + '/updated_at'] = data.created_at;
 		return firebase.database().ref().update(updates);
-
-		// networkRef.push( data )
-		// 		  .then( (result) => {
-
-		// 		  	dispatch( updatePoem( networkId, { currentNetworkHistoryUid: result.getKey() } ) );
-
-		// 		  	dispatch( createNetworkHistoryItemFulfilledAction( data ) )
-
-		// 		  })
-		// 		  .catch( (error) => {
-		// 		  	dispatch( createNetworkHistoryItemRejectedAction() )
-		// 		  })
 	}
 }
 
@@ -126,33 +115,16 @@ export function createNetwork(data) {
 		// Atomic update
 		var newNetworkKey = firebase.database().ref('/networks/').push().key;
 		var newNetworkHistoryKey = firebase.database().ref('/history/' + newNetworkKey).push().key;
-		// var newPoemKey = firebase.database().ref('/poem/').push().key;
 
 		var updates = {};
 		updates['/networks/' + newNetworkKey ] = data;
 		updates['/history/' + newNetworkKey + '/' + newNetworkHistoryKey] = data;
 
-		var poemData = Object.assign( {}, data, { 'networkHistoryKey': newNetworkHistoryKey, 'updated_at': data.created_at} )
+		var poemData = Object.assign( {}, data, { 'network_key': newNetworkKey, 'updated_at': data.created_at} )
 		updates['/poem/' + newNetworkKey] = poemData;
 
 		return firebase.database().ref().update(updates);
 
-
-		// firebase.database()
-		// 	   .ref('networks')
-		// 	   .push(data)
-		// 	   .then( (result) => {
-					
-		// 	   	 dispatch( createPoem( result.getKey(), data ) );
-
-  //         		 dispatch( createNetworkHistoryItem( result.getKey(), data))
-
-		// 	  	 dispatch( createNetworkFulfilledAction( data ) );
-			  	 
-		// 	   })
-		// 	   .catch( (error) => {
-		// 	  	 dispatch( createNetworkRejectedAction() )
-		// 	   })
 	}
 }
 
