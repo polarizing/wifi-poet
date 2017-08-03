@@ -108,6 +108,7 @@ class NetworkList extends Component {
     }
 
     onSwipeoutClosed(e, networkId) {
+
       if (this.state.swipeout.delete) {
 
         var data = {
@@ -116,14 +117,18 @@ class NetworkList extends Component {
           ends_in: 6000,
         }
 
+        
         this.props.onCreatePendingDeletion(networkId, data)
 
-        // get current pending list ... recheck if still to be deleted
-        setTimeout(() => {
-          if (this.props.pending[networkId]) {
+        // get current pending list ... recheck if still to be deleted -- cannot do recheck
+        // with no unique pending ID (promise) ... fake it with limit???
+        var tmOut = setTimeout(() => {
+          if (this.props.pending[networkId] ) {
             this.props.onDeletePoem(networkId, { deleted_by: this.props.user.displayName });
-          }
+          } 
         }, 6000)
+
+
 
       }
     }
@@ -135,19 +140,6 @@ class NetworkList extends Component {
         return "/create/"
       // }
     }
-
-    // getPendingStatus(item) {
-    //   if (this.props.pending) {
-    //     if (this.props.pending.items) {
-    //       if ( this.props.pending.items[item.network_key] ) {
-    //         return this.props.pending.items[item.network_key]
-    //       }
-    //       else {
-    //         return undefined
-    //       }
-    //     }
-    //   }
-    // }
 
     render() {
         return (

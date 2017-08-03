@@ -13,7 +13,8 @@ class NetworkItem extends Component {
             wifi: 0,
             timeouts: [],
             intervals: [],
-            editing: false
+            editing: false,
+            pending: false,
         }
 
         this.onChange = this.onChange.bind(this);
@@ -28,31 +29,40 @@ class NetworkItem extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+      console.log(nextProps);
       // set pending countdown
-      if ( (nextProps.pending !== this.props.pending) && nextProps.pending && this.props.editable) {
-        // DELETION ACTION
-        if (nextProps.pending.action === 0) {
-          var i = setInterval( () => {
-            var d = new Date();
-            var dt = (nextProps.pending.timestamp + nextProps.pending.ends_in) - d.getTime();
-            if (dt <= 6000 && dt > 4000) {
-              this.setState({wifi: 3})
+      if (nextProps.pending) {
+          // if ( (nextProps.pending.action !== this.props.pending.action) && this.props.editable) {
+            // DELETION ACTION
+            if (nextProps.pending.action === 0 && this.props.editable) {
+              this.setState({pending: true});
+              var i = setInterval( () => {
+                var d = new Date();
+                var dt = (nextProps.pending.timestamp + nextProps.pending.ends_in) - d.getTime();
+                if (dt <= 6000 && dt > 4000) {
+                  this.setState({wifi: 3})
+                }
+                if (dt <= 4000 && dt > 2000) {
+                  this.setState({wifi: 2})
+                }
+                if (dt <= 2000) {
+                  this.setState({wifi: 1})
+                }
+              }, 250);
+              this.state.intervals.push( i );
             }
-            if (dt <= 4000 && dt > 2000) {
-              this.setState({wifi: 2})
-            }
-            if (dt <= 2000) {
-              this.setState({wifi: 1})
-            }
-          }, 250);
-          this.state.intervals.push( i );
-        }
-      } else if (!nextProps.pending) {
+          // } 
+      }
+      else if (!nextProps.pending) {
+
       // clear pending countdown
         for (var i = 0; i < this.state.intervals.length; i++) {
             clearInterval( this.state.intervals[i] );
-            this.setState({wifi: 3});
+              this.setState({wifi: 3});
+              this.setState({pending: false});
         }
+
       }
 
       var randomTime = Math.floor(Math.random() * 750) + 350;
@@ -221,6 +231,20 @@ class NetworkItem extends Component {
 
     }
 
+    getInputCSS() {
+      if (!this.state.pending) {
+        return classNames( {
+          'content': true,
+        });
+      } else {
+        return classNames({
+          'content': true,
+          'input-strike': true,
+        })
+      }
+    }
+
+
     render() {
 
         return (
@@ -229,7 +253,7 @@ class NetworkItem extends Component {
                   <input
                       type="text"
                       key={this.props.networkData.network_key}
-                      className="content"
+                      className={ this.getInputCSS() }
                       disabled={ this.disabled() | !this.props.editable} 
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
                       maxLength={13}

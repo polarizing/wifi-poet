@@ -200,12 +200,12 @@ body.with-panel-left-cover .statusbar-overlay {
 
 @-webkit-keyframes fadeOut {
     from { opacity: 1; }
-      to { opacity: 0; }
+      to { opacity: 0.3; }
 }  
 
 @keyframes fadeOut {
     from { opacity: 1; }
-      to { opacity: 0; }
+      to { opacity: 0.3; }
 }
 
 
@@ -259,4 +259,10 @@ textarea,
 	outline: 0;
     -webkit-user-select: text!important;
     user-select: text;
+}
+
+.input-strike {
+	text-decoration: line-through;
+	-webkit-animation: fadeOut 6s;
+    animation: fadeOut 6s;
 }
