@@ -239,7 +239,7 @@ class NetworkList extends Component {
               <ContentBlockTitle> 
                 <GridRow noGutter>
                   <GridCol width="10"></GridCol>
-                  <GridCol width="80"><div className="footer-text">Wifi Poet v0.45 | NerveMilk</div></GridCol>
+                  <GridCol width="80"><div className="footer-text">Wifi Poet v0.5 | NerveMilk</div></GridCol>
                   <GridCol width="10"></GridCol>
                 </GridRow>
               </ContentBlockTitle>

@@ -62,7 +62,7 @@ export default class CreateNetworkForm extends Component {
                   </ListItem>
                 </List>
                 <ContentBlock inset>
-                <Button onClick={(e) => {this.onClick(e)} }  big round fill color="green">提交</Button>
+                <Button onClick={(e) => {this.onClick(e)} } big fill color="green">提交</Button>
                 </ContentBlock>
             </div>
         )

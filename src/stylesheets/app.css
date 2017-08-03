@@ -49,6 +49,10 @@ body.with-panel-left-cover .statusbar-overlay {
 	/*flex: 0 0 20%;*/
 }
 
+.navbar .center {
+	font-weight: 400!important;
+}
+
 .wifi-name input {
 	height: 100% !important;
 	position: absolute;
