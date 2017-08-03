@@ -23,7 +23,7 @@ function history(state = INITIAL_STATE, action) {
               id: item,
               author: curr.author,
               name: curr.name,
-              timestamp: curr.timestamp
+              created_at: curr.created_at
             })
           }
           newHistories.push({
@@ -50,7 +50,7 @@ function history(state = INITIAL_STATE, action) {
                   id: item,
                   author: curr.author,
                   name: curr.name,
-                  timestamp: curr.timestamp
+                  created_at: curr.created_at
                 })
               }
               newHistories.push({
@@ -73,7 +73,7 @@ function history(state = INITIAL_STATE, action) {
               newHistory.push({
                 id: item,
                 name: history[item].name,
-                timestamp: history[item].timestamp,
+                created_at: history[item].created_at,
                 author: history[item].author
               })
             }

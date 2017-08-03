@@ -1,7 +1,7 @@
 import C from '../constants';
 
 const initialState = {
-	items: []
+	items: {},
 }
 
 function pending(state = initialState, action) {
@@ -9,7 +9,7 @@ function pending(state = initialState, action) {
 
 	switch(action.type) {
 		case C.PENDING_CHANGED: {
-			const pendings = action.payload;
+			const pendings = action.payload || {};
 
 			const newState = Object.assign({}, state, {
 				inProgress: false,

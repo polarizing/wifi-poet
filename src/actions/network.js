@@ -34,7 +34,6 @@ export function getNetworkHistoryItem(networkId) {
 			   .ref('history')
 			   .child(networkId)
 			   .once('value', snap => {
-
 					dispatch( getNetworkHistoryItemFulfilledAction( snap.val() ) );
 				})
 				.catch( (error) => {

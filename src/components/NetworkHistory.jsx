@@ -18,11 +18,11 @@ export default class NetworkHistory extends Component {
                {
                   this.props.history.map((item, idx) => {
                     console.log(item);
-                    var dateTime = new Date(item.timestamp);
+                    var dateTime = new Date(item.created_at);
                     var date = moment(dateTime);
                     return (
                       <TimelineItem side={ "right"}
-                            key={item.network_key}
+                            key={item.id}
                             inner
                             time={ item.author + ":" }
                             title=""

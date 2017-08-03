@@ -24,12 +24,15 @@ class NetworkList extends Component {
     }
 
     componentWillMount() {
-
+      console.log('MOUNTING');
+      console.log(this.props.pending);
     }
 
-    componentWillReceiveProps(nextProps) {
-   
-    }
+      componentWillReceiveProps(nextProps) {
+         this.props = null;
+         this.props = nextProps;
+         // call any method here   
+      }
 
     getContentBlockTitleString() {
 
@@ -76,17 +79,21 @@ class NetworkList extends Component {
     }
 
     onSwipeoutOpen(e) {
-      this.setState(prevState => {
-        return {
-          swipeout: {
-            element: e.target,
-            delete: false
+        this.setState(prevState => {
+          return {
+            swipeout: {
+              element: e.target,
+              delete: false
+            }
           }
-        }
-      })
+        })
     }
 
-    swipeoutClick(e) {
+    swipeoutClick(e, item) {
+      console.log(item);
+      if (item.locked) {
+        return;
+      }
       if (this.state.checked) {
           var currSwipeoutElement = this.state.swipeout.element;
             this.setState(prevState => {
@@ -101,23 +108,23 @@ class NetworkList extends Component {
     }
 
     onSwipeoutClosed(e, networkId) {
-
       if (this.state.swipeout.delete) {
 
         var data = {
           action: 0,
           initiated_by: this.props.user.displayName,
-          ends_in: 3000,
+          ends_in: 6000,
         }
 
         this.props.onCreatePendingDeletion(networkId, data)
-        // set database delete mode ... 3 ... 2 ... 1 ...
+
+        // get current pending list ... recheck if still to be deleted
         setTimeout(() => {
-          this.props.onDeletePoem(networkId, { deleted_by: this.props.user.displayName });
-          // getFramework7().swipeoutDelete(this.state.swipeout.element, function() {
-          //   console.log('closed element');
-          // })
-        }, 3000)
+          if (this.props.pending[networkId]) {
+            this.props.onDeletePoem(networkId, { deleted_by: this.props.user.displayName });
+          }
+        }, 6000)
+
       }
     }
 
@@ -128,6 +135,19 @@ class NetworkList extends Component {
         return "/create/"
       // }
     }
+
+    // getPendingStatus(item) {
+    //   if (this.props.pending) {
+    //     if (this.props.pending.items) {
+    //       if ( this.props.pending.items[item.network_key] ) {
+    //         return this.props.pending.items[item.network_key]
+    //       }
+    //       else {
+    //         return undefined
+    //       }
+    //     }
+    //   }
+    // }
 
     render() {
         return (
@@ -173,59 +193,53 @@ class NetworkList extends Component {
               <Transition
                           component="ul"
                           enter={{
-                             opacity: 1, translateY: spring(0, { stiffness: 400, damping: 10 }), height: 44
+                            opacity: 1, height: 44
                           }}
                           leave={{
-                            opacity: 0,  translateY: 0, height: 0
+                           opacity: 0, height: 0
                           }}
-                          runOnMount={true}
+                          runOnMount={false}
                         >  
                          
                   {
                     this.props.networks.map((item, index) => {
-                      console.log(item);
+
                       return (
-                        // <div>
-                        //   <ListItem swipeout title="Item 1" onSwipeoutDeleted={(e) => this.onSwipeoutDeleted(e)}>
-                        //     <ListItemSwipeoutActions>
-                        //       <ListItemSwipeoutButton delete>Delete</ListItemSwipeoutButton>
-                        //     </ListItemSwipeoutActions>
-                        //   </ListItem>
-                        // </div>
-                        // <NetworkItem editable={this.state.checked} key={item.id} networkData={ item }></NetworkItem>
-                        
 
                           <ListItem 
                               ref={item.network_key}
-                              onSwipeoutOpen={(e) => this.onSwipeoutOpen(e)}
+                              onSwipeoutOpen={(e) => this.onSwipeoutOpen(e, item)}
                               onSwipeoutClosed={(e) => this.onSwipeoutClosed(e, item.network_key)}
                               swipeout
                               media="<img src='/blank256.png'>"
                               key={item.network_key}
-                              innerSlot= { <NetworkItem editable={this.state.checked} key={item.network_key} networkData={ item } ></NetworkItem> }
+                              innerSlot= { <NetworkItem pending={this.props.pending[item.network_key]} editable={this.state.checked} key={item.network_key} networkData={ item } ></NetworkItem> }
                           >
                           
                           { this.state.checked ? <ListItemSwipeoutActions>
-                                    <ListItemSwipeoutButton color={this.state.checked ? "red" : "gray"} close={this.state.checked} onClick={(e) => this.swipeoutClick(e)}>删除</ListItemSwipeoutButton>
+                                    <ListItemSwipeoutButton color={this.state.checked ? "red" : "gray"} close={this.state.checked} onClick={(e) => this.swipeoutClick(e, item)}>删除</ListItemSwipeoutButton>
                                   </ListItemSwipeoutActions> : null }
 
                           </ListItem>
                       )
                     })
                   }
-                  <ListItem 
+                  {
+                    (this.state.checked && this.props.networks.length < 10) ? <ListItem 
                               key="test-key"
                               link={ this.getNetworkCreationLink() }
                               media="<img src='/blank256.png'>"
                               title="创建新的Wi-Fi网络..."
                       >
-                  </ListItem>
+                       </ListItem> : <span key="test-key-undefined"></span>
+                  }
+                 
                   </Transition>
               </List>
               <ContentBlockTitle> 
                 <GridRow noGutter>
                   <GridCol width="10"></GridCol>
-                  <GridCol width="80"><div className="footer-text">Wifi Poet v0.4 | NerveMilk</div></GridCol>
+                  <GridCol width="80"><div className="footer-text">Wifi Poet v0.45 | NerveMilk</div></GridCol>
                   <GridCol width="10"></GridCol>
                 </GridRow>
               </ContentBlockTitle>

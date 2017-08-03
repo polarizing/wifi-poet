@@ -12,7 +12,8 @@ class NetworkItem extends Component {
             disabled: false,
             wifi: 0,
             timeouts: [],
-            wifiStrength: Math.floor(Math.random() * 3) + 1
+            intervals: [],
+            editing: false
         }
 
         this.onChange = this.onChange.bind(this);
@@ -21,10 +22,40 @@ class NetworkItem extends Component {
     }
 
     componentDidMount() {
+      if (this.props.editable) {
+        this.setState({wifi: 3});
+      }
     }
 
     componentWillReceiveProps(nextProps) {
-      var randomTime = Math.floor(Math.random() * 750);
+      // set pending countdown
+      if ( (nextProps.pending !== this.props.pending) && nextProps.pending && this.props.editable) {
+        // DELETION ACTION
+        if (nextProps.pending.action === 0) {
+          var i = setInterval( () => {
+            var d = new Date();
+            var dt = (nextProps.pending.timestamp + nextProps.pending.ends_in) - d.getTime();
+            if (dt <= 6000 && dt > 4000) {
+              this.setState({wifi: 3})
+            }
+            if (dt <= 4000 && dt > 2000) {
+              this.setState({wifi: 2})
+            }
+            if (dt <= 2000) {
+              this.setState({wifi: 1})
+            }
+          }, 250);
+          this.state.intervals.push( i );
+        }
+      } else if (!nextProps.pending) {
+      // clear pending countdown
+        for (var i = 0; i < this.state.intervals.length; i++) {
+            clearInterval( this.state.intervals[i] );
+            this.setState({wifi: 3});
+        }
+      }
+
+      var randomTime = Math.floor(Math.random() * 750) + 350;
       if (nextProps.editable !== this.props.editable) {
         // blinking animation
         if ( nextProps.editable ) {
@@ -59,6 +90,10 @@ class NetworkItem extends Component {
             name: e.target.value
           }
 
+          // Remove from pending deletion.
+          if ( this.props.pending ) {
+            this.props.onDeletePendingDeletion( item.network_key )
+          }
 
           this.props.onUpdatePoem( item.network_key, data );
 
@@ -77,11 +112,19 @@ class NetworkItem extends Component {
 
       // If content-editable line is focused, temporarily copy to client-side state and DB.
       this.setState( (prevState, props) => {
-        return { onFocusValue: item.name }
+        return { 
+          onFocusValue: item.name,
+          editing: false
+        }
       })
 
       // Set line to be 'locked' on database.
       this.setLocked( {locked: this.props.user.displayName}, item )
+
+      // Remove from pending deletion.
+      if ( this.props.pending ) {
+        this.props.onDeletePendingDeletion( item.network_key )
+      }
 
     }
 
@@ -92,6 +135,10 @@ class NetworkItem extends Component {
     onBlur(e, item) {
         // Set line to be 'unlocked' on database.
         this.setLocked( {locked: null}, item );
+
+        this.setState( (prevState, props) => {
+          return { editing: true }
+        })
 
         // Sanitizing content-editable string into plain text.
         var text = e.target.value;
@@ -151,17 +198,6 @@ class NetworkItem extends Component {
 
     disabled() {
       return this.props.networkData.locked && (this.props.networkData.locked !== this.props.user.displayName)
-    }
-
-    editNetwork(e) {
-      // console.log(e);
-      // document.getElementById.focus();
-      // Explicitly focus the text input using the raw DOM API.
-      if (this.textInput !== null) {
-        // console.log(this.textInput.htmlEl.focus());
-        // this.textInput.focus();
-        // this.textInput.focus();
-      }
     }
 
     getWifiIconState(num) {

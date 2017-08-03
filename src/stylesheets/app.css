@@ -203,9 +203,10 @@ body.with-panel-left-cover .statusbar-overlay {
 
 
 @keyframes fade {
-  0%,100% { opacity: 0.2 }
+  0%,100% { opacity: 0.70 }
   50% { opacity: 1 }
 }
+
 
 
 .editing-mode-text {
