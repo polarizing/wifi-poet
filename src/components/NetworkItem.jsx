@@ -3,6 +3,10 @@ import {Icon, Link, GridCol, GridRow} from 'framework7-react';
 import firebase from '../firebase.js';
 import classNames from 'classnames'
 
+String.prototype.realLength = function() {
+    return this.replace(/[^\x00-\xff]/g, "**").length; // [^\x00-\xff] - Matching non double byte character 
+};
+
 class NetworkItem extends Component {
     constructor(props, context) {
         super(props, context);
@@ -15,6 +19,7 @@ class NetworkItem extends Component {
             intervals: [],
             editing: false,
             pending: false,
+            maxLength: 26
         }
 
         this.onChange = this.onChange.bind(this);
@@ -94,7 +99,45 @@ class NetworkItem extends Component {
 
     }
 
+    countUtf8Bytes(s){
+        var b = 0, i = 0, c
+        for(;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
+        return b
+    }
+
     onChange(e, item) {
+
+          // console.log( this.countUtf8Bytes(e.target.value) )
+          // console.log( this.props.networkData.name )
+          // console.log( e.target.value );
+          var regex = /[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]/
+          var cc = 0;
+          var ncc = 0;
+          for (var i = 0; i < e.target.value.length; i++) {
+            // alert(e.target.value[i]);
+            if ( regex.test( e.target.value[i] ) ) {
+              cc += 1;
+            }
+            else {
+              ncc += 1;
+            }
+          }
+          var left = 28 - ( (cc * 2) + (ncc * 1.0) );
+          var max = (left <= 0) ? 0 : left;
+          console.log("Chinese: ", cc, " Non-Chinese: ", ncc, " Max Length: ", max);
+
+          if (max === 0) {
+            return;
+          }
+
+          // var input = "input string"; 
+          // if(regex.test(e.target.value)) {
+          //     console.log("Chinese characters found")
+          // }
+          // else {
+          //     console.log("No Chinese characters");
+          // }
+
 
           const data = {
             name: e.target.value
@@ -256,7 +299,6 @@ class NetworkItem extends Component {
                       className={ this.getInputCSS() }
                       disabled={ this.disabled() | !this.props.editable} 
                       onBlur={(e) => this.onBlur(e, this.props.networkData)}
-                      maxLength={13}
                       onChange={(e) => this.onChange(e, this.props.networkData)}
                       onFocus={(e) => this.onFocus(e, this.props.networkData)}
                       value={ this.props.networkData.name }

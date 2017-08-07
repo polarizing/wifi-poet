@@ -117,7 +117,6 @@ class NetworkList extends Component {
           ends_in: 6000,
         }
 
-        
         this.props.onCreatePendingDeletion(networkId, data)
 
         // get current pending list ... recheck if still to be deleted -- cannot do recheck
@@ -127,8 +126,6 @@ class NetworkList extends Component {
             this.props.onDeletePoem(networkId, { deleted_by: this.props.user.displayName });
           } 
         }, 6000)
-
-
 
       }
     }

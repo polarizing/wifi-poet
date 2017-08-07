@@ -14,6 +14,19 @@ export class About extends Component {
             <Page>
                 <Navbar title="About" backLink="Back" sliding />
 <ContentBlock inset> 
+26.08.2017<br /><br />
+@Basement6, Shanghai<br /><br />
+
+今时今日<br />
+非要你顺着我撒下的网<br />
+遁入地底<br />
+见证字句的发育<br />
+亲历情绪的共产<br />
+然后<br />
+目睹一首诗<br />
+长成一堵墙<br />
+覆盖住整颗月亮<br />
+{/*
                 Wifi-Poet is a new-media project founded in 2016.  <br /><br />
 
                 Wifi-Poet is a router hotspot that enables anonymous collaborators
@@ -36,7 +49,7 @@ export class About extends Component {
                 Wifi-Poet reimagines the possibility of creating shared poetry through a
                 new collaborative environment, liberating the traditional sense of locality and physical bodies. 
                 It hopes that people will find common ground through poetry and 
-                interacting in both online and offline spheres.
+                interacting in both online and offline spheres. */}
 </ContentBlock>
 
             </Page>
