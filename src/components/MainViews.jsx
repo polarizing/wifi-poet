@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 
 import { Icon, NavLeft, Link, NavCenter, NavRight, Views, View, Navbar, Pages, Page} from 'framework7-react';
 
-import Auth from './Auth';
 import NetworkList from '../containers/networkListContainer';
 
 const MainViews = (props, context) => {
@@ -41,7 +40,6 @@ const MainViews = (props, context) => {
 
 						{ /* <ContentBlockTitle>已连接 wifi-poet 路由器...</ContentBlockTitle> */ }
 						{ /* <ContentBlock inset inner><marquee>🥛你已连接Wi-Fi诗人网络。通过Wi-Fi网络名字留个言吧，别人会看见哦～🥛</marquee></ContentBlock> */ }
-						{ /* <Auth /> */ }
 						<NetworkList />
 					</Page>
 				</Pages>

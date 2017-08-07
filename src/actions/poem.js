@@ -14,13 +14,10 @@ export function watchPoemChangedEvent(dispatch) {
 		var temp = [];
 
 		data.forEach(function(child) {
-			// console.log(child.key);
-			// console.log(child.val())
 			temp.push(child.val());
 		})
 
 		dispatch( watchPoemChangedAction( temp ) );
-		// console.log(data.val());
 	});
 }
 

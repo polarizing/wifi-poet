@@ -5,8 +5,6 @@ import network from './network';
 import history from './history';
 import pending from './pending';
 import poem from './poem';
-// import version from './line';
-// import line from './version';
 
 export default {
 	...firebase,
@@ -16,6 +14,4 @@ export default {
 	...history,
 	...pending,
 	...poem,
-	// ...version,
-	// ...line
 }
