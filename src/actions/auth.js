@@ -161,23 +161,23 @@ export const listenToAuth = () => (dispatch, getState) => {
 
 };
 
-export const openAuth = () => dispatch => {
+// export const openAuth = () => dispatch => {
 
-  dispatch({ type: C.AUTH_OPEN });
-  const provider = new firebase.auth.FacebookAuthProvider();
-  auth.signInWithPopup(provider).catch(error => {
-    dispatch({
-      type: C.FEEDBACK_DISPLAY_ERROR,
-      error: `Login failed! ${error}`
-    });
-    dispatch({ type: C.AUTH_LOGOUT });
-  });
+//   dispatch({ type: C.AUTH_OPEN });
+//   const provider = new firebase.auth.FacebookAuthProvider();
+//   auth.signInWithPopup(provider).catch(error => {
+//     dispatch({
+//       type: C.FEEDBACK_DISPLAY_ERROR,
+//       error: `Login failed! ${error}`
+//     });
+//     dispatch({ type: C.AUTH_LOGOUT });
+//   });
 
-};
+// };
 
-export const logoutUser = () => dispatch => {
+// export const logoutUser = () => dispatch => {
 
-  dispatch({ type: C.AUTH_LOGOUT });
-  auth.signOut();
+//   dispatch({ type: C.AUTH_LOGOUT });
+//   auth.signOut();
 
-};
+// };
