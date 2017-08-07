@@ -5,6 +5,7 @@ import Gathering from './Gathering';
 import C from './constants';
 
 firebase.initializeApp(C.firebaseConfigDevelopment);
-export const auth = firebase.auth();
+// export const auth = firebase.auth();
 export const database = firebase.database();
+// export const auth = firebase.auth();
 export default firebase;

@@ -1,6 +1,5 @@
 import * as firebase from "firebase";
 import C from "../constants";
-import { auth } from "../firebase";
 import { getUser } from '../actions/user';
 import Gathering from '../Gathering';
 
